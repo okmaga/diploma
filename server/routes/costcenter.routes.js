@@ -7,7 +7,6 @@ const auth = require("../middleware/auth.middleware");
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    console.log(user);
     if (user.role === "admin") {
       const list = await CostCenter.find();
       res.status(200).send(list);
@@ -25,7 +24,7 @@ router.patch("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = User.findById(req.user._id);
+    const user = await User.findById(req.user._id);
 
     if (user.role === "admin") {
       const updatedCostCenter = await CostCenter.findByIdAndUpdate(id, req.body, { new: true });
