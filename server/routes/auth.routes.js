@@ -6,13 +6,6 @@ const { generateUserData } = require("../utils/helpers");
 const tokenService = require("../services/token.service");
 const router = express.Router({ mergeParams: true});
 
-
-// 1. get data from request (email, password ...)
-// 2. check if email is already in use
-// 3. hash password
-// 4. create user
-// 5. generate tokens
-
 router.post("/signUp", [
   check("email", "Incorrect email").isEmail(),
   check("password","Minimal length of password is 8 symbols" ).isLength({ min: 8 }),
@@ -82,8 +75,6 @@ router.post("/signInWithPassword", [
       const { email, password } = req.body;
 
       const existingUser = await User.findOne({ email });
-
-      console.log(existingUser);
 
       if (!existingUser) {
         return res.status(400).send({

@@ -1,32 +1,50 @@
 [
   {
-    "name": "Moscow Marathon",
-    "email": "maga.bashirov@gmail.com",
-    "role": "Manager",
+    "name": "Moscow ",
+    "email": "manager1@asd.com",
+    "role": "manager",
     "id": 0,
     "verified": true,
     "password" : "ASDASD123"
   },
   {
-    "name": "Боб Келсо",
-    "email": "bob007@tw.com",
-    "role": "Manager",
+    "name": "Bob KKK",
+    "email": "manager2@asd.com",
+    "role": "manager",
     "id": 1,
     "verified": true,
     "password" : "ASDASD123"
   },
   {
-    "name": "Arbuz",
-    "email": "bob007@tw.com123",
-    "role": "User",
+    "name": "Arbuz ",
+    "email": "manager4@asd.com",
+    "role": "manager",
     "id": 2,
+    "verified": true,
     "password" : "ASDASD123"
   },
   {
-    "name": "Dubai World School Games",
-    "email": "asd@asd.com",
-    "role": "Manager",
+    "name": "Champion",
+    "email": "user@asd.com",
+    "role": "user",
     "id": 3,
+    "verified": false,
+    "password" : "ASDASD123"
+  },
+  {
+    "name": "Sponge Bob",
+    "email": "manager3@asd.com",
+    "role": "manager",
+    "id": 4,
+    "verified": false,
+    "password" : "ASDASD123"
+  },
+  {
+    "name": "Tryharder Joe",
+    "email": "admin@asd.com",
+    "role": "admin",
+    "id": 4,
+    "verified": true,
     "password" : "ASDASD123"
   }
 ]

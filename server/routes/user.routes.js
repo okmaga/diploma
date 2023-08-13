@@ -15,12 +15,11 @@ router.get("/", async (req, res) => {
   };
 });
 
-
 router.get("/:id", async (req, res) => {
-  const _id = req.params.id;
+  const { id } = req.params;
   try {
-    if(ObjectId.isValid(_id)) {
-      const user = await UserService.get(_id);
+    if(ObjectId.isValid(id)) {
+      const user = await UserService.get(id);
       if (!user) {
         return res.status(404).send({
           error: {
@@ -32,7 +31,6 @@ router.get("/:id", async (req, res) => {
       res.status(200).send(user);
     };
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       message: "Server error. Try again later"
     });
@@ -40,11 +38,11 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/:id", async (req, res) => {
-  const _id = req.params.id;
+  const { id } = req.params;
   try {
-    if(ObjectId.isValid(_id)) {
+    if(ObjectId.isValid(id)) {
 
-      const existingUserById = await User.findById(_id);
+      const existingUserById = await User.findById(id);
       if (!existingUserById) {
         return res.status(404).send({
           error: {
@@ -64,12 +62,11 @@ router.post("/:id", async (req, res) => {
         });
       };
 
-      const updatedUser = await UserService.update(_id, req.body);
+      const updatedUser = await UserService.update(id, req.body);
 
       res.status(200).send(updatedUser);
     };
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       message: "Server error. Try again later"
     });

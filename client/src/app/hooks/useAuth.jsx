@@ -41,7 +41,6 @@ const AuthProvider = ({ children }) => {
       const data = await authService.login({ email, password });
       data.localId = data.userId;
       data.idToken = data.accessToken;
-      console.log("TOKEN DATA", data);
       setTokens(data);
       await getUserData();
     } catch (error) {

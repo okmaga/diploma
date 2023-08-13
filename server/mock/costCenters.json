@@ -1,0 +1,22 @@
+[
+  {
+    "title": "HR",
+    "managers": ["manager1@asd.com","manager2@asd.com"],
+    "limit": 800000
+  },
+  {
+    "title": "Building Maintenance",
+    "managers": ["manager1@asd.com","manager3@asd.com"],
+    "limit": 5000000
+  },
+  {
+    "title": "Aquatics",
+    "managers": ["manager2@asd.com","manager3@asd.com"],
+    "limit": 500000
+  },
+  {
+    "title": "OOL",
+    "managers": ["manager1@asd.com","manager4@asd.com"],
+    "limit": 700000
+  }
+]

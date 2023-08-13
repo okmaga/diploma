@@ -1,8 +1,11 @@
-const User = require("../models/User")
-const PurchaseOrder = require("../models/PurchaseOrder")
+const User = require("../models/User");
+const PurchaseOrder = require("../models/PurchaseOrder");
+const CostCenter = require("../models/CostCenter");
+const bcrypt = require("bcryptjs");
 
 const usersMock = require("../mock/users.json");
 const purchaseOrdersMock = require("../mock/purchaseOrders.json");
+const costCentersMock = require("../mock/costCenters.json");
 
 module.exports = async () => {
   const users = await User.find();
@@ -14,6 +17,11 @@ module.exports = async () => {
   if (purchaseOrders.length !== purchaseOrdersMock.length) {
     await createInitialEntity(PurchaseOrder, purchaseOrdersMock);
   }
+
+  const costCenters = await CostCenter.find();
+  if (costCenters.length !== costCentersMock.length) {
+    await createInitialEntity(CostCenter, costCentersMock);
+  }
 };
 
 async function createInitialEntity(Model, data) {
@@ -23,6 +31,10 @@ async function createInitialEntity(Model, data) {
     data.map(async item => {
       try {
         delete item.id;
+        if (item?.password) {
+          item.password = await bcrypt.hash(item.password, 12)
+        };
+
         const newItem = new Model(item);
         await newItem.save();
         return newItem;
