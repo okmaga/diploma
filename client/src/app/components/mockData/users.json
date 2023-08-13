@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Moscow Marathon",
+    "email": "maga.bashirov@gmail.com",
+    "role": "Manager",
+    "id": 0,
+    "verified": true
+  },
+  {
+    "name": "Боб Келсо",
+    "email": "bob007@tw.com",
+    "role": "Manager",
+    "id": 1,
+    "verified": true
+  },
+  {
+    "name": "Arbuz",
+    "email": "bob007@tw.com123",
+    "role": "User",
+    "id": 2
+  },
+  {
+    "name": "Dubai World School Games",
+    "email": "asd@asd.com",
+    "role": "Manager",
+    "id": 3
+  }
+]

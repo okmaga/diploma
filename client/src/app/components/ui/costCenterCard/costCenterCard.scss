@@ -1,0 +1,19 @@
+.cost-center-card {
+  border-radius: 1rem;
+  padding: 2rem;
+  -webkit-box-shadow: 3px 4px 11px -3px rgba(0,0,0,0.32);
+  &:hover {
+    background-color: #efefef;
+    cursor: pointer;
+  }
+  .cost-center-title {
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
+  .cost-center-spent {
+    margin-bottom: 1rem;
+  }
+  .cost-center-progress {
+
+  }
+}

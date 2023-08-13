@@ -1,0 +1,5 @@
+{
+  "apiEndpoint": "http://localhost:8080/api/",
+  "apiEndpoint2": "https://diploma-209af-default-rtdb.europe-west1.firebasedatabase.app/",
+  "isFireBase": false
+}

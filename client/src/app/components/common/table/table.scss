@@ -1,0 +1,14 @@
+@import "../../../styles/variables.scss";
+
+table, th, td {
+  color: $main-color;
+  border: 1px solid $soft-color;
+  border-collapse: collapse;
+  padding: 0.5rem 1rem;
+  text-align: left;
+}
+
+th, td {
+  word-wrap: break-word;
+  max-width: 500px;
+}

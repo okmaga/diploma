@@ -1,0 +1,33 @@
+@import "./variables.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit
+}
+
+.root {
+  font-family: Inter, sans-serif;
+  background-color: $main-bg;
+  color: $main-color;
+}
+
+.container {
+  display: flex;
+}
+
+.menuContainer {
+  width: 300px;
+  padding: 5px 20px;
+  border-right: 1px solid $soft-color;
+}
+
+.contentContainer {
+  width: 100%;
+  padding: 5px 20px;
+}
