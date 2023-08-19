@@ -6,14 +6,15 @@ import { validator } from "../../../utils/validator";
 import { LoadingButton } from "@mui/lab";
 import SelectField from "../../common/form/SelectField";
 import CheckboxField from "../../common/form/CheckboxField";
-import { useAuth } from "../../../hooks/useAuth";
 import { useToaster } from "../../../hooks/useToaster";
 import PropTypes from "prop-types";
-import userService from "../../../services/user.service";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsersError, signUp, updateUser } from "../../../store/users";
 
 const AddUserForm = ({ mode = "new", userData }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { signUp } = useAuth();
+  const dispatch = useDispatch();
+  const storeError = useSelector(getUsersError());
   const { toast } = useToaster();
   const navigate = useNavigate();
   const [data, setData] = useState({
@@ -22,9 +23,14 @@ const AddUserForm = ({ mode = "new", userData }) => {
     name: userData?.name || "",
     password: "",
     role: userData?.role || "",
-    edit: mode === "edit",
     logMeIn: false
   });
+
+  useEffect(() => {
+    if (storeError) {
+      Object.keys(storeError).map(key => toast.error(storeError[key]));
+    };
+  }, [storeError]);
 
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -72,12 +78,12 @@ const AddUserForm = ({ mode = "new", userData }) => {
     if (!isValid) return;
     if (mode === "new") {
       try {
-        const newUser = await signUp(data);
+        await dispatch(signUp(data));
         if (data.logMeIn) {
           navigate("/");
         } else {
           navigate("/users");
-          toast.success(`A new ${newUser.role} ${newUser.name} was added`);
+          toast.success(`A new ${data.role} ${data.name} was added`);
         };
         setIsLoading(false);
       } catch (error) {
@@ -86,9 +92,9 @@ const AddUserForm = ({ mode = "new", userData }) => {
       };
     } else {
       try {
-        await userService.update(data);
+        await dispatch(updateUser(data));
         navigate("/users");
-        setIsLoading(false);
+        toast.success(`${data.role} ${data.name} was updated`);
       } catch (error) {
         setFormErrors(error);
         setIsLoading(false);

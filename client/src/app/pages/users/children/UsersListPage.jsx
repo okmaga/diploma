@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import UsersTable from "../../../components/ui/UsersTable";
-import UsersLoader from "../../../components/ui/hoc/usersLoader";
 import { useSelector } from "react-redux";
 import { getUsers, getUsersError } from "../../../store/users";
 import { Button } from "@mui/material";
@@ -10,10 +9,12 @@ import { toast } from "react-toastify";
 const UsersListPage = () => {
   const navigate = useNavigate();
   const users = useSelector(getUsers());
-  const error = useSelector(getUsersError());
-  if (error?.status === 401) {
-    toast.error("Not authorised to do this");
-  };
+  const storeError = useSelector(getUsersError());
+  useEffect(() => {
+    if (storeError) {
+      Object.keys(storeError).map(key => toast.error(storeError[key]));
+    };
+  }, [storeError]);
 
   return (
     <div className="users">
@@ -24,9 +25,7 @@ const UsersListPage = () => {
         onClick={() => navigate("add")}
       >Add User</Button>
       <div>
-        <UsersLoader>
-          {users.length ? <UsersTable users={users}/> : "No users"}
-        </UsersLoader>
+        {users.length ? <UsersTable users={users}/> : "No users"}
       </div>
     </div>
   );

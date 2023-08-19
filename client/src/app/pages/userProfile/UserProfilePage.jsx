@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getCurrentUserData, getUserById } from "../../store/users";
+import { getUserById } from "../../store/users";
 import { useSelector } from "react-redux";
 import "./userProfilePage.scss";
 import Button from "@mui/material/Button";
+import { useAuth } from "../../hooks/useAuth";
 
 const UserProfilePage = () => {
   const navigate = useNavigate();
-  const currentUser = useSelector(getCurrentUserData());
+  const { currentUser } = useAuth();
   const isAdmin = currentUser && currentUser.role === "admin";
 
   const { id } = useParams();

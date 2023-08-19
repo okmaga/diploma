@@ -12,7 +12,6 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import "react-toastify/dist/ReactToastify.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { teal } from "@mui/material/colors";
-import AuthProvider from "./hooks/useAuth";
 import Logout from "./layouts/logout/Logout";
 import AddUserPage from "./pages/users/children/AddUserPage";
 import UsersListPage from "./pages/users/children/UsersListPage";
@@ -21,6 +20,8 @@ import ToastProvider from "./hooks/useToaster";
 import UserProfilePage from "./pages/userProfile/UserProfilePage";
 import EditUserPage from "./pages/editUser/EditUserPage";
 import UserPage from "./pages/userPage/UserPage";
+import UsersLoader from "./components/ui/hoc/usersLoader";
+import AuthProvider from "./hooks/useAuth";
 
 const theme = createTheme({
   palette: {
@@ -97,14 +98,16 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <AuthProvider>
-        <ThemeProvider theme={theme}>
-          <ToastProvider>
-            <RouterProvider router={router}/>
-            <Toaster />
-          </ToastProvider>
-        </ThemeProvider>
-      </AuthProvider>
+      <UsersLoader>
+        <AuthProvider>
+          <ThemeProvider theme={theme}>
+            <ToastProvider>
+              <RouterProvider router={router}/>
+              <Toaster />
+            </ToastProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </UsersLoader>
     </>
   );
 }

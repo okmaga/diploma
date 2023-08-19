@@ -5,7 +5,7 @@ import SignUpPage from "../../pages/signup/SignUpPage";
 import "./login.scss";
 import { useAuth } from "../../hooks/useAuth";
 const Login = () => {
-  const { currentUser } = useAuth();
+  const currentUser = useAuth();
   const { type } = useParams();
   const [formType, setFormType] = useState(type === "signup" ? type : "login");
   const toggleFormType = () => {

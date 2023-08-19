@@ -90,6 +90,19 @@ router.patch("/:id", auth, async (req, res) => {
         });
       };
 
+      const existingUserByEmail = await User.findOne({email: req.body.email});
+
+      const isEmailAlreadyUsed = existingUserByEmail._id.toString() !== existingUserById._id.toString();
+
+      if (isEmailAlreadyUsed) {
+        return res.status(400).json({
+          error: {
+            message: "EMAIL_ASSIGNED_TO_ANOTHER_USER",
+            code: 400
+          }
+        });
+      };
+
       const canEdit = id === req.user._id || req.isAdmin;
 
       if (canEdit) {

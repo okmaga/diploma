@@ -4,8 +4,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Badge } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
 import NavProfile from "../ui/NavProfile/NavProfile";
+import { useAuth } from "../../hooks/useAuth";
 
 const NavBar = () => {
   const { currentUser } = useAuth();

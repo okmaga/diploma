@@ -43,9 +43,8 @@ const LoginForm = () => {
     if (!isValid) return;
     try {
       await logIn(data);
-      return navigate("/");
+      navigate("/");
     } catch (error) {
-      console.log(error.message);
       setLoginError(error.message);
     };
   };
