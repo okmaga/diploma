@@ -252,6 +252,13 @@ export const updateUser = (payload) => async (dispatch) => {
         throw errorObject;
       };
     };
+    if (code === 401) {
+      if (message === "NOT_AUTHORIZED") {
+        const errorObject = { name: "Cannot edit this user" };
+        dispatch(userUpdateFailed(errorObject));
+        throw errorObject;
+      };
+    };
   };
 };
 

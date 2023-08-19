@@ -33,6 +33,7 @@ const AddUserForm = ({ mode = "new", userData }) => {
   }, [storeError]);
 
   const [formErrors, setFormErrors] = useState({});
+  const [submitError, setSubmitError] = useState(null);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   const roleOptions = [
@@ -65,6 +66,12 @@ const AddUserForm = ({ mode = "new", userData }) => {
     setIsSubmitDisabled(!isValid);
   }, [data]);
 
+  useEffect(() => {
+    if (submitError) {
+      Object.keys(submitError).map(key => toast.error(submitError[key]));
+    };
+  }, [submitError]);
+
   const validate = () => {
     const formErrors = validator(data, validatorConfig);
     setFormErrors(formErrors);
@@ -88,6 +95,7 @@ const AddUserForm = ({ mode = "new", userData }) => {
         setIsLoading(false);
       } catch (error) {
         setFormErrors(error);
+        setSubmitError(error);
         setIsLoading(false);
       };
     } else {
@@ -97,11 +105,11 @@ const AddUserForm = ({ mode = "new", userData }) => {
         toast.success(`${data.role} ${data.name} was updated`);
       } catch (error) {
         setFormErrors(error);
+        setSubmitError(error);
         setIsLoading(false);
       }
     };
   };
-
   const handleChange = (target) => {
     setData(prev => ({
       ...prev,

@@ -10,13 +10,19 @@ module.exports = async (req, res, next) => {
     const token = req.headers.authorization.split(" ")[1];
 
     if (!token) {
-      return res.status(401).json({ message: "Unathorized"});
+      return res.status(401).json({ error: {
+        message: "Not authorized",
+        code: 401
+      }});
     };
 
     const data = tokenService.validateAccess(token);
 
     if (!data) {
-      return res.status(401).json({message: "Unauthorized"});
+      return res.status(401).json({ error: {
+          message: "Not authorized",
+          code: 401
+        }});
     }
 
     const user = await User.findById(data._id);

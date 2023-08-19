@@ -114,7 +114,10 @@ router.patch("/:id", auth, async (req, res) => {
         const updatedUser = await User.findByIdAndUpdate(id, req.body, { new: true });
         res.send(updatedUser);
       } else {
-        return res.status(401).json({message: "Unathorized"});
+        return res.status(401).json({error: {
+          message: "NOT_AUTHORIZED",
+          code: 401
+        }});
       };
     };
   } catch (e) {
