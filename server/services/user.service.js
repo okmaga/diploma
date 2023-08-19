@@ -14,9 +14,17 @@ class UserService {
         return existingUser.save();
       };
     } catch(e) {
-      return null;
+      return e;
     }
   };
+  async delete (id) {
+    try {
+      const removedUser = await User.findByIdAndDelete(id);
+      return null;
+    } catch (e) {
+      return e;
+    }
+  }
 };
 
 module.exports = new UserService();

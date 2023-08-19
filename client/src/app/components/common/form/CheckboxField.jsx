@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FormControlLabel, Checkbox } from "@mui/material";
 
-const CheckboxField = ({ label, name, onChange, value, error }) => {
+const CheckboxField = ({ label, name, checked, onChange, error }) => {
   const handleChange = () => {
-    onChange({ name, value: !value });
+    onChange({ name, value: !checked });
   };
   return (
     <FormControlLabel control={
@@ -12,7 +12,7 @@ const CheckboxField = ({ label, name, onChange, value, error }) => {
         name={name}
         label={label}
         onChange={handleChange}
-        checked={value}
+        checked={checked}
       />
     } label={label}
     />
@@ -23,8 +23,8 @@ CheckboxField.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.bool,
-  error: PropTypes.string
+  error: PropTypes.string,
+  checked: PropTypes.bool
 };
 
 export default CheckboxField;

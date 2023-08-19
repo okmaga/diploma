@@ -8,12 +8,7 @@ const initDatabase = require("./startUp/initDatabase");
 
 const app = express();
 
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true,
-  optionSuccessStatus: 200,
-}))
-
+app.use(cors())
 
 app.use((req, res, next) => {
   if (req.method === "OPTIONS") {

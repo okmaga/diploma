@@ -5,6 +5,7 @@ import localStorageService, { setTokens } from "../services/localStorage.service
 import { toast } from "react-toastify";
 import authService from "../services/auth.service";
 import configFile from "../config.json";
+import { CircularProgress } from "@mui/material";
 
 const AuthContext = React.createContext();
 
@@ -64,16 +65,19 @@ const AuthProvider = ({ children }) => {
     setCurrentUser(null);
   };
 
-  async function signUp({ email, password, ...rest }) {
+  async function signUp(payload) {
     try {
-      const data = await authService.register({ email, password, ...rest });
+      const data = await authService.register(payload);
       data.localId = data.userId;
       data.idToken = data.accessToken;
-      setTokens(data);
-      if (configFile.isFireBase) {
-        await createUser({ _id: data.localId, email, ...rest });
-      } else {
+      if (payload.logMeIn) {
+        setTokens(data);
         await getUserData();
+      }
+      if (configFile.isFireBase) {
+        await createUser({ ...payload, _id: data.localId });
+      } else {
+        return data;
       };
     } catch (error) {
       errorCatcher(error);
@@ -110,7 +114,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ currentUser, logIn, signUp, logOut, isLoading }}>
-      {!isLoading ? children : "loading..."}
+      {!isLoading ? children : <CircularProgress />}
     </AuthContext.Provider>
   );
 };

@@ -21,7 +21,8 @@ router.post("/signUp", [
           }
         });
       }
-      const { email, password } = req.body;
+      const { email, password, logMeIn } = req.body;
+      delete req.body.logMeIn;
 
       const existingUser = await User.findOne({ email });
 
@@ -42,19 +43,21 @@ router.post("/signUp", [
         password: hashedPassword
       });
 
-      const tokens = tokenService.generate({ _id: newUser._id });
+      if (logMeIn) {
+        const tokens = tokenService.generate({ _id: newUser._id });
 
-      await tokenService.save(newUser._id, tokens.refreshToken);
+        await tokenService.save(newUser._id, tokens.refreshToken);
 
-      res.status(201).send({ ...tokens, userId: newUser._id });
-
+        res.status(201).send({ ...tokens, userId: newUser._id });
+      } else {
+        res.status(201).send(newUser);
+      }
     } catch (e) {
       res.status(500).json({
         message: "Server error. Try again later"
       });
     }
   }]);
-
 
 router.post("/signInWithPassword", [
   check("email", "Incorrect email").normalizeEmail().isEmail(),
@@ -117,6 +120,7 @@ router.post("/token", async (req, res) => {
     const { refresh_token: refreshToken } = req.body;
 
     const data = tokenService.validateRefresh(refreshToken);
+
     const dbToken = await tokenService.findToken(refreshToken);
 
     if (isTokenInvalid(data, dbToken)) {
@@ -127,7 +131,7 @@ router.post("/token", async (req, res) => {
       _id: data._id
     });
 
-    await tokenService.save(data._id, tokens.refreshToken)
+    await tokenService.save(data._id, tokens.refreshToken);
 
     res.status(200).send({ ...tokens, userId: data._id });
 

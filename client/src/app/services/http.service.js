@@ -13,25 +13,24 @@ http.interceptors.request.use(
     if (configFile.isFireBase) {
       const containsSlash = /\/$/gi.test(config.url);
       config.url = (containsSlash ? config.url.slice(0, -1) : config.url) + ".json";
-      const refreshToken = localStorageService.getRefreshToken();
-      const expiresDate = localStorageService.getTokenExpiresDate();
-      if (refreshToken && expiresDate < Date.now()) {
-        console.log("token refresh start");
-        const data = await authService.refresh();
-        setTokens({
-          refreshToken: data.refresh_token,
-          idToken: data.id_token,
-          localId: data.user_id,
-          expiresIn: data.expires_in
-        });
+    }
+    const refreshToken = localStorageService.getRefreshToken();
+    const expiresDate = localStorageService.getTokenExpiresDate();
+    if (refreshToken && expiresDate < Date.now()) {
+      const data = await authService.refresh();
+      setTokens({
+        refreshToken: data.refreshToken,
+        idToken: data.accessToken,
+        localId: data.userId,
+        expiresIn: data.expires_in
+      });
+    }
+    const accessToken = localStorageService.getAccessToken();
+    if (accessToken) {
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${accessToken}`
       };
-      const accessToken = localStorageService.getAccessToken();
-      if (accessToken) {
-        config.params = {
-          ...config.params
-          // auth: accessToken
-        };
-      }
     }
     return config;
   }, function (error) {
@@ -56,7 +55,6 @@ http.interceptors.response.use(
   function (error) {
     const expectedErrors = error.response && error.response.status >= 400 && error.response.status < 500;
     if (!expectedErrors) {
-      console.log(error);
       toast.error("Something went wrong. Try again later.");
     };
     return Promise.reject(error);

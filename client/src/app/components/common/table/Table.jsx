@@ -3,17 +3,22 @@ import PropTypes from "prop-types";
 import "./table.scss";
 import _ from "lodash";
 
-const Table = ({ data, columns }) => {
-  const renderContent = (item, column) => {
+const Table = ({ data, columns, onRowClick }) => {
+  const renderContent = (item, i, column) => {
     if (columns[column].component) {
       const component = columns[column].component;
       if (typeof component === "function") {
-        return component(item);
+        return component(item, i);
       }
       return component;
     } else {
       return _.get(item, columns[column].path);
     }
+  };
+  const handleRowClick = (item) => {
+    if (onRowClick) {
+      onRowClick(item);
+    };
   };
   return (
     <table className="table">
@@ -29,11 +34,16 @@ const Table = ({ data, columns }) => {
         </tr>
       </thead>
       <tbody className="tbody">
-        {data.map(item => (<tr className="tbody-row" key={item._id}>
+        {data.map((item, i) => (<tr
+          onClick={() => handleRowClick(item)}
+          style={{ cursor: (onRowClick ? "pointer" : "") }}
+          className="tbody-row"
+          key={item._id}
+        >
           {Object.keys(columns).map(column => (<td
             className="tbody-item"
             key={column}>
-            {renderContent(item, column)}
+            {renderContent(item, i, column)}
           </td>))}
         </tr>))}
       </tbody>
@@ -43,6 +53,7 @@ const Table = ({ data, columns }) => {
 
 Table.propTypes = {
   columns: PropTypes.object,
-  data: PropTypes.array
+  data: PropTypes.array,
+  onRowClick: PropTypes.func
 };
 export default Table;

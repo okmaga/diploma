@@ -5,8 +5,13 @@ import { TextField as TextFieldMui } from "@mui/material";
 const TextField = ({ label, name, type, value, placeholder, required, onChange, error }) => {
   const [isTouched, setIsTouched] = useState(false);
   const handleChange = ({ target }) => {
-    setIsTouched(true);
     onChange({ name: target.name, value: target.value });
+    setIsTouched(false);
+  };
+  const handleBlur = ({ target }) => {
+    if (target.value) {
+      setIsTouched(true);
+    };
   };
 
   return (
@@ -21,7 +26,9 @@ const TextField = ({ label, name, type, value, placeholder, required, onChange, 
         value={value}
         margin="normal"
         required={required}
-        onChange={handleChange} />
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
     </>
   );
 };

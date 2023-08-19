@@ -11,7 +11,7 @@ router.get("/", auth, async (req, res) => {
       const list = await CostCenter.find();
       res.status(200).send(list);
     } else {
-      return res.status(401).json({message: "Unathorized"});
+      return res.status(403).json({message: "Forbidden"});
     }
   } catch (e) {
     res.status(500).json({

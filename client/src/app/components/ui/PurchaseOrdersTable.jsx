@@ -8,7 +8,7 @@ const UsersTable = ({ purchaseOrders }) => {
     console.log(`${name} verified`);
   };
   const columns = {
-    index: { name: "#", component: "1" },
+    index: { name: "#", component: (purchaseOrder, i) => i + 1 },
     description: { name: "Description", path: "description" },
     requestor: { name: "Requestor", path: "requestor" },
     amount: { name: "Amount", path: "amount" },

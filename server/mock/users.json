@@ -1,6 +1,6 @@
 [
   {
-    "name": "Moscow ",
+    "name": "Moscow",
     "email": "manager1@asd.com",
     "role": "manager",
     "id": 0,
@@ -16,7 +16,7 @@
     "password" : "ASDASD123"
   },
   {
-    "name": "Arbuz ",
+    "name": "Arbuz",
     "email": "manager4@asd.com",
     "role": "manager",
     "id": 2,

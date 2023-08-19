@@ -1,6 +1,7 @@
 const tokenService = require("../services/token.service");
+const User = require("../models/User");
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   if (req.method === "OPTIONS") {
     return next();
   }
@@ -17,6 +18,17 @@ module.exports = (req, res, next) => {
     if (!data) {
       return res.status(401).json({message: "Unauthorized"});
     }
+
+    const user = await User.findById(data._id);
+    const isAdmin = user.role === "admin";
+
+    if (isAdmin) {
+      req.isAdmin = true;
+    }
+
+    if (req.method === "DELETE" && !isAdmin) {
+      return res.status(403).json({message: "Forbidden"});
+    };
 
     req.user = data;
 

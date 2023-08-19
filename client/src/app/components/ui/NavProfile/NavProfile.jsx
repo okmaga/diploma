@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Avatar from "@mui/material/Avatar";
+import { Avatar } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";

@@ -1,0 +1,23 @@
+@import "../../styles/variables.scss";
+
+.user-profile-page {
+  h1 {
+    margin-bottom: 3rem;
+  }
+  color: $main-color;
+  .user-profile-row {
+    display: flex;
+    border-bottom: 1px solid $soft-color;
+    align-items: center;
+    height: 4rem;
+    max-width: 500px;
+
+    .user-profile-row-key {
+      flex: 2;
+    }
+
+    .user-profile-row-value {
+      flex: 5;
+    }
+  }
+}

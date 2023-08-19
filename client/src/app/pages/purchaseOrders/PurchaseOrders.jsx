@@ -1,26 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import "./purchaseOrders.scss";
-import purchaseOrderService from "../../services/purchase.order.service";
 import PurchaseOrdersTable from "../../components/ui/PurchaseOrdersTable";
+import { useSelector } from "react-redux";
+import { getPurchaseOrdersList } from "../../store/purchaseOrders";
+import PurchaseOrdersLoader from "../../components/ui/hoc/purchaseOrdersLoader";
 
 const PurchaseOrders = () => {
-  const [purchaseOrders, setPurchaseOrders] = useState();
-  const fetchPurchaseOrders = async () => {
-    try {
-      const content = await purchaseOrderService.fetchAll();
-      console.log(content);
-      setPurchaseOrders(content);
-    } catch (error) {
-      console.log(error);
-    };
-  };
+  const purchaseOrders = useSelector(getPurchaseOrdersList());
   return (
     <div className="purchase-orders">
       <h1 className="page-title">PurchaseOrders</h1>
-      <button onClick={fetchPurchaseOrders}>Fetch Purchase Orders</button>
-      {purchaseOrders && <PurchaseOrdersTable
-        purchaseOrders={purchaseOrders}
-      />}
+      <PurchaseOrdersLoader>
+        <PurchaseOrdersTable purchaseOrders={purchaseOrders}/>
+      </PurchaseOrdersLoader>
     </div>
   );
 };

@@ -9,12 +9,18 @@ import "./styles/global.scss";
 import Home from "./pages/home/Home";
 import Payments from "./pages/payments/Payments";
 import Dashboard from "./pages/dashboard/Dashboard";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { teal } from "@mui/material/colors";
 import AuthProvider from "./hooks/useAuth";
 import Logout from "./layouts/logout/Logout";
+import AddUserPage from "./pages/users/children/AddUserPage";
+import UsersListPage from "./pages/users/children/UsersListPage";
+import Toaster from "./components/ui/Toaster";
+import ToastProvider from "./hooks/useToaster";
+import UserProfilePage from "./pages/userProfile/UserProfilePage";
+import EditUserPage from "./pages/editUser/EditUserPage";
+import UserPage from "./pages/userPage/UserPage";
 
 const theme = createTheme({
   palette: {
@@ -47,7 +53,31 @@ const router = createBrowserRouter([
       },
       {
         path: "users",
-        element: <Users />
+        element: <Users />,
+        children: [
+          {
+            index: true,
+            element: <UsersListPage />
+          },
+          {
+            path: ":id",
+            element: <UserPage/>,
+            children: [
+              {
+                index: true,
+                element: <UserProfilePage />
+              },
+              {
+                path: "edit",
+                element: <EditUserPage />
+              }
+            ]
+          },
+          {
+            path: "add",
+            element: <AddUserPage />
+          }
+        ]
       },
       {
         path: "cost-centers",
@@ -69,8 +99,10 @@ function App() {
     <>
       <AuthProvider>
         <ThemeProvider theme={theme}>
-          <RouterProvider router={router}/>
-          <ToastContainer />
+          <ToastProvider>
+            <RouterProvider router={router}/>
+            <Toaster />
+          </ToastProvider>
         </ThemeProvider>
       </AuthProvider>
     </>

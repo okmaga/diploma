@@ -2,7 +2,7 @@
 
 table, th, td {
   color: $main-color;
-  border: 1px solid $soft-color;
+  border-bottom: 1px solid $soft-color;
   border-collapse: collapse;
   padding: 0.5rem 1rem;
   text-align: left;
@@ -10,5 +10,13 @@ table, th, td {
 
 th, td {
   word-wrap: break-word;
-  max-width: 500px;
+  max-width: 400px;
+
+
+}
+
+.tbody-row {
+  &:hover {
+    background-color: $soft-hover-color;
+  }
 }

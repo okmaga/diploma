@@ -19,6 +19,10 @@ const userService = {
   update: async (payload) => {
     const { data } = await httpService.patch(userEndpoint + payload._id, payload);
     return data;
+  },
+  remove: async (id) => {
+    const { data } = await httpService.delete(userEndpoint + id);
+    return data;
   }
 };
 

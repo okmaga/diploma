@@ -8,7 +8,7 @@ const schema = new Schema({
     unique: true
   },
   password: { type: String },
-  role: { type: String },
+  role: { type: String, enum: ["user", "manager", "admin"] },
   verified: { type: Boolean },
 }, {
   timestamps: true

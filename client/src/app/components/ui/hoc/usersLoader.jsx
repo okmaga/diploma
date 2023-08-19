@@ -1,18 +1,22 @@
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsersLoadingStatus, loadUsersList } from "../../../store/users";
+import { CircularProgress } from "@mui/material";
 
-const AppLoader = ({ children }) => {
-  console.log("APP LOADER IN THE BUSINESS OK++++++");
+const UsersLoader = ({ children }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(getUsersLoadingStatus());
-  dispatch(loadUsersList());
-  if (isLoading) return "loading...";
+  useEffect(() => {
+    dispatch(loadUsersList());
+  }, []);
+
+  if (isLoading) return <CircularProgress />;
   return children;
 };
 
-AppLoader.propTypes = {
+UsersLoader.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };
 
-export default AppLoader;
+export default UsersLoader;
