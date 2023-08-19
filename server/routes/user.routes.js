@@ -65,9 +65,22 @@ router.post("/:id", auth, async (req, res) => {
         });
       };
 
-      const updatedUser = await UserService.update(id, req.body);
+      const canEdit = id === req.user._id || req.isAdmin;
 
-      res.status(200).send(updatedUser);
+      if (canEdit) {
+        const { password } = req.body;
+        if (password) {
+          const updatedPassword = await bcrypt.hash(password, 12);
+          req.body.password = updatedPassword;
+        };
+        const updatedUser = await User.findByIdAndUpdate(id, req.body, { new: true });
+        res.send(updatedUser);
+      } else {
+        return res.status(401).json({error: {
+            message: "NOT_AUTHORIZED",
+            code: 401
+          }});
+      };
     };
   } catch (e) {
     res.status(500).json({
