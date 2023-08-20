@@ -1,12 +1,13 @@
 import axios from "axios";
 import localStorageService from "./localStorage.service";
+import configFile from "../config.json"
 
 const httpAuth = axios.create({
   // baseURL: "https://identitytoolkit.googleapis.com/v1/accounts:",
   // params: {
   //   key: process.env.REACT_APP_FIREBASE_KEY
   // }
-  baseURL: "http://localhost:8080/api/auth/"
+  baseURL: configFile.apiEndpoint + "auth/"
 });
 
 const authService = {
