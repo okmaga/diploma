@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
 
     if (!token) {
       return res.status(401).json({ error: {
-        message: "Not authorized",
+        message: "NOT_AUTHORIZED",
         code: 401
       }});
     };
@@ -20,7 +20,7 @@ module.exports = async (req, res, next) => {
 
     if (!data) {
       return res.status(401).json({ error: {
-          message: "Not authorized",
+          message: "NOT_AUTHORIZED",
           code: 401
         }});
     }
@@ -41,6 +41,9 @@ module.exports = async (req, res, next) => {
     next();
 
   } catch (e) {
-    res.status(401).json({ message: "Unathorized"});
+    res.status(401).json({ error: {
+        message: "NOT_AUTHORIZED",
+        code: 401
+      }});
   };
 };

@@ -4,9 +4,10 @@ import { useSelector } from "react-redux";
 import { getUsers, getUsersError } from "../../../store/users";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useToaster } from "../../../hooks/useToaster";
 
 const UsersListPage = () => {
+  const { toast } = useToaster();
   const navigate = useNavigate();
   const users = useSelector(getUsers());
   const storeError = useSelector(getUsersError());
@@ -26,6 +27,9 @@ const UsersListPage = () => {
       >Add User</Button>
       <div>
         {users.length ? <UsersTable users={users}/> : "No users"}
+      </div>
+      <div style={{ color: "darkred", marginTop: "1rem" }}>
+        {storeError && Object.keys(storeError).map(key => <p key={key}>{storeError[key]}</p>)}
       </div>
     </div>
   );

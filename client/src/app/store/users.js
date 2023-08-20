@@ -155,7 +155,13 @@ export const loadUsersList = () => async (dispatch) => {
     const content = await userService.fetchAll();
     dispatch(usersReceived(content));
   } catch (error) {
-    dispatch(usersRequestFailed(error.message));
+    const { code, message } = error.response.data.error;
+    if (code === 401) {
+      if (message === "NOT_AUTHORIZED") {
+        const errorObject = { auth: "Please log in or contact your administrator" };
+        dispatch(usersRequestFailed(errorObject));
+      };
+    };
   };
 };
 
