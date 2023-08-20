@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getPurchaseOrdersLoadingStatus,
   loadPurchaseOrdersList
-} from "../../../store/purchaseOrders";
+} from "../../store/purchaseOrdersSlice";
 import { CircularProgress } from "@mui/material";
 
 const PurchaseOrdersLoader = ({ children }) => {

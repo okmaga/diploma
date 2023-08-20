@@ -4,7 +4,7 @@ import Table from "../common/table/Table";
 import { Switch } from "@mui/material";
 import AlertDialog from "../AlertDialog";
 import { useDispatch } from "react-redux";
-import { deleteUser } from "../../store/users";
+import { deleteUser } from "../../store/usersSlice";
 import { useToaster } from "../../hooks/useToaster";
 import { useNavigate } from "react-router-dom";
 

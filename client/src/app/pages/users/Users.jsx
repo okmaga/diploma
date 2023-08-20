@@ -1,10 +1,13 @@
 import React from "react";
 import "./user.scss";
 import { Outlet } from "react-router-dom";
+import UsersLoader from "../../components/hoc/usersLoader";
 
 const Users = () => {
   return (
-    <Outlet />
+    <UsersLoader>
+      <Outlet />
+    </UsersLoader>
   );
 };
 

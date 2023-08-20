@@ -1,33 +1,9 @@
-import { createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createSlice } from "@reduxjs/toolkit";
 import userService from "../services/user.service";
 import authService from "../services/auth.service";
 import localStorageService from "../services/localStorage.service";
 import history from "../utils/history";
 import configFile from "../config.json";
-
-export const signUp2 = createAsyncThunk(
-  "auth/signUp2",
-  async (payload, { dispatch, rejectWithValue }) => {
-    try {
-      const data = await authService.register(payload);
-      console.log(data);
-      if (!data) {
-        throw new Error("Server error. Try again later");
-      }
-      return data;
-    } catch (error) {
-      const { code, message } = error.response.data.error;
-      if (code === 400) {
-        if (message === "EMAIL_EXISTS") {
-          const errorObject = { email: "User with such email already exists!" };
-          dispatch(userCreateFailed(errorObject));
-          return rejectWithValue(errorObject);
-        };
-      };
-      return rejectWithValue();
-    };
-  }
-);
 
 const initialState = localStorageService.getAccessToken()
   ? {
@@ -105,24 +81,6 @@ const usersSlice = createSlice({
     userLoggedOut: (state) => {
       state.auth = null;
       state.isLoggedIn = false;
-    }
-  },
-  extraReducers: {
-    [signUp2.pending]: (state) => {
-      state.isLoading = true;
-      state.error = null;
-    },
-    [signUp2.fulfilled]: (state, action) => {
-      if (!Array.isArray(state.entities)) {
-        state.entities = [];
-      };
-      state.entities.push(action.payload);
-      state.isLoading = false;
-      state.isLoading = false;
-    },
-    [signUp2.rejected]: (state, action) => {
-      state.error = action.payload;
-      state.isLoading = false;
     }
   }
 });

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import UsersTable from "../../../components/ui/UsersTable";
 import { useSelector } from "react-redux";
-import { getUsers, getUsersError } from "../../../store/users";
+import { getUsers, getUsersError } from "../../../store/usersSlice";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useToaster } from "../../../hooks/useToaster";

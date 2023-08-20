@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import AddUserForm from "../../components/ui/addUserForm/AddUserForm";
 import { useSelector } from "react-redux";
-import { getUserById } from "../../store/users";
+import { getUserById } from "../../store/usersSlice";
 const EditUserPage = () => {
   const { id } = useParams();
   const user = useSelector(getUserById(id));

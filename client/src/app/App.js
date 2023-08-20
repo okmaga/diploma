@@ -20,7 +20,6 @@ import ToastProvider from "./hooks/useToaster";
 import UserProfilePage from "./pages/userProfile/UserProfilePage";
 import EditUserPage from "./pages/editUser/EditUserPage";
 import UserPage from "./pages/userPage/UserPage";
-import UsersLoader from "./components/ui/hoc/usersLoader";
 import AuthProvider from "./hooks/useAuth";
 
 const theme = createTheme({
@@ -98,16 +97,14 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <UsersLoader>
-        <AuthProvider>
-          <ThemeProvider theme={theme}>
-            <ToastProvider>
-              <RouterProvider router={router}/>
-              <Toaster />
-            </ToastProvider>
-          </ThemeProvider>
-        </AuthProvider>
-      </UsersLoader>
+      <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <ToastProvider>
+            <RouterProvider router={router}/>
+            <Toaster />
+          </ToastProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </>
   );
 }

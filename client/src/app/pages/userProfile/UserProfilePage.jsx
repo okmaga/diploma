@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getUserById } from "../../store/users";
+import { getUserById } from "../../store/usersSlice";
 import { useSelector } from "react-redux";
 import "./userProfilePage.scss";
 import Button from "@mui/material/Button";

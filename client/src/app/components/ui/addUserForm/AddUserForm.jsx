@@ -9,7 +9,7 @@ import CheckboxField from "../../common/form/CheckboxField";
 import { useToaster } from "../../../hooks/useToaster";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsersError, signUp, updateUser } from "../../../store/users";
+import { getUsersError, signUp, updateUser } from "../../../store/usersSlice";
 
 const AddUserForm = ({ mode = "new", userData }) => {
   const [isLoading, setIsLoading] = useState(false);

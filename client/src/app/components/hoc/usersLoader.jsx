@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsersLoadingStatus, loadUsersList } from "../../../store/users";
+import { getUsersLoadingStatus, loadUsersList } from "../../store/usersSlice";
 import { CircularProgress } from "@mui/material";
 
 const UsersLoader = ({ children }) => {

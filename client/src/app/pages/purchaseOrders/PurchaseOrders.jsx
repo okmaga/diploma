@@ -2,8 +2,8 @@ import React from "react";
 import "./purchaseOrders.scss";
 import PurchaseOrdersTable from "../../components/ui/PurchaseOrdersTable";
 import { useSelector } from "react-redux";
-import { getPurchaseOrdersList } from "../../store/purchaseOrders";
-import PurchaseOrdersLoader from "../../components/ui/hoc/purchaseOrdersLoader";
+import { getPurchaseOrdersList } from "../../store/purchaseOrdersSlice";
+import PurchaseOrdersLoader from "../../components/hoc/purchaseOrdersLoader";
 
 const PurchaseOrders = () => {
   const purchaseOrders = useSelector(getPurchaseOrdersList());
