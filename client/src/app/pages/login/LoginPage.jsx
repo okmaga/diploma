@@ -1,11 +1,12 @@
 import React from "react";
 import "./loginPage.scss";
 import LoginForm from "../../components/ui/loginForm/LoginForm";
-import { useAuth } from "../../hooks/useAuth";
 import PropTypes from "prop-types";
+import { getCurrentUser } from "../../store/authSlice";
+import { useSelector } from "react-redux";
 
 const LoginPage = ({ toggleFormType }) => {
-  const { currentUser } = useAuth();
+  const currentUser = useSelector(getCurrentUser());
   return (
     <>
       {currentUser && currentUser?._id

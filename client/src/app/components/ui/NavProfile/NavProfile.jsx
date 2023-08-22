@@ -8,10 +8,11 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../hooks/useAuth";
+import { getCurrentUser } from "../../../store/authSlice";
+import { useSelector } from "react-redux";
 
 const NavProfile = () => {
-  const { currentUser } = useAuth();
+  const currentUser = useSelector(getCurrentUser());
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -35,7 +36,7 @@ const NavProfile = () => {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <Avatar sx={{ width: 32, height: 32 }}>{currentUser.name ? currentUser.name[0] : " "}</Avatar>
+          <Avatar sx={{ width: 32, height: 32 }}>{currentUser?.name ? currentUser.name[0] : " "}</Avatar>
         </IconButton>
       </Tooltip>
       <Menu
@@ -45,8 +46,8 @@ const NavProfile = () => {
         onClose={handleClose}
         onClick={handleClose}
       >
-        <MenuItem onClick={handleClose}>
-          {currentUser.name}
+        <MenuItem onClick={() => navigate(`/users/${currentUser?._id}`)}>
+          {currentUser?.name}
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleLogOut}>

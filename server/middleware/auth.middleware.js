@@ -33,7 +33,10 @@ module.exports = async (req, res, next) => {
     }
 
     if (req.method === "DELETE" && !isAdmin) {
-      return res.status(403).json({message: "Forbidden"});
+      return res.status(403).json({ error: {
+          message: "NOT_AUTHORIZED_TO_DELETE",
+          code: 403
+        }});
     };
 
     req.user = data;

@@ -44,6 +44,7 @@ router.post("/signUp", [
       });
 
       if (logMeIn) {
+
         const tokens = tokenService.generate({ _id: newUser._id });
 
         await tokenService.save(newUser._id, tokens.refreshToken);

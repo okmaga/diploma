@@ -12,12 +12,16 @@ const UsersTable = ({ users }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { toast } = useToaster();
+
   const handleVerify = (name) => {
     console.log(`${name} verified`);
   };
   const handleDeleteConfirm = async (e, user) => {
-    await dispatch(deleteUser(user._id));
-    toast.info(`${user.role} ${user.name} deleted`);
+    try {
+      await dispatch(deleteUser(user._id));
+    } catch (error) {
+      Object.keys(error).map(key => toast.error(error[key]));
+    };
   };
   const handleRowClick = (user) => {
     navigate(`${user._id}`);

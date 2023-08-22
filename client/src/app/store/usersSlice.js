@@ -1,24 +1,18 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
 import userService from "../services/user.service";
-import authService from "../services/auth.service";
 import localStorageService from "../services/localStorage.service";
-import history from "../utils/history";
-import configFile from "../config.json";
+import { logout, signUp } from "./authSlice";
 
 const initialState = localStorageService.getAccessToken()
   ? {
     entities: [],
     isLoading: false,
     error: null,
-    auth: { userId: localStorageService.getUserId() },
-    isLoggedIn: false,
     dataLoaded: false
   } : {
     entities: [],
     isLoading: false,
     error: null,
-    auth: null,
-    isLoggedIn: false,
     dataLoaded: false
   };
 
@@ -33,6 +27,7 @@ const usersSlice = createSlice({
     usersReceived: (state, action) => {
       state.entities = action.payload;
       state.isLoading = false;
+      state.dataLoaded = true;
     },
     usersRequestFailed: (state, action) => {
       state.isLoading = false;
@@ -53,18 +48,6 @@ const usersSlice = createSlice({
       state.entities[updatedUserIndex] = action.payload;
       state.isLoading = false;
     },
-    authRequested: (state) => {
-      state.isLoading = true;
-      state.error = null;
-    },
-    authRequestSuccess: (state, action) => {
-      state.auth = action.payload;
-      state.isLoggedIn = true;
-      state.isLoading = true;
-    },
-    authRequestFailed: (state, action) => {
-      state.error = action.payload;
-    },
     userCreateRequested: (state) => {
       state.isLoading = true;
     },
@@ -77,11 +60,26 @@ const usersSlice = createSlice({
     },
     userCreateFailed: (state, action) => {
       state.error = action.payload;
-    },
-    userLoggedOut: (state) => {
-      state.auth = null;
-      state.isLoggedIn = false;
     }
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(signUp.fulfilled, (state, action) => {
+        const { content } = action.payload;
+        if (!Array.isArray(state.entities)) {
+          state.entities = [];
+        };
+        if (state.entities.length) {
+          state.entities.push(content);
+        };
+        state.isLoading = false;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.entities = [];
+        state.isLoading = false;
+        state.error = null;
+        state.dataLoaded = false;
+      });
   }
 });
 
@@ -95,13 +93,6 @@ const {
   usersReceived,
   usersRequestFailed,
   userUpdated,
-  authRequested,
-  authRequestSuccess,
-  authRequestFailed,
-  userCreateRequested,
-  userCreated,
-  userCreateFailed,
-  userLoggedOut,
   userDeleteRequested,
   userDeleted,
   userDeleteFailed
@@ -123,73 +114,6 @@ export const loadUsersList = () => async (dispatch) => {
   };
 };
 
-export const login = ({ email, password }) => async (dispatch) => {
-  dispatch(authRequested());
-  try {
-    const data = await authService.login({ email, password });
-    data.localId = data.userId;
-    data.idToken = data.accessToken;
-    localStorageService.setTokens(data);
-    dispatch(authRequestSuccess({ userId: data.localId }));
-    await dispatch(loadUsersList());
-  } catch (error) {
-    dispatch(authRequestFailed(error.message));
-    const { code, message } = error.response.data.error;
-    if (code === 400) {
-      switch (message) {
-      case "INVALID_PASSWORD":
-        throw new Error("Email or password are incorrect");
-      case "EMAIL_NOT_FOUND":
-        throw new Error("Email or password are incorrect");
-      default:
-        throw new Error("Too many log in attempts. Try again later.");
-      };
-    };
-  };
-};
-
-export const logout = () => (dispatch) => {
-  localStorageService.removeAuthData();
-  dispatch(userLoggedOut());
-  history.push("/");
-};
-
-export const signUp = (payload) => async (dispatch) => {
-  dispatch(userCreateRequested());
-  try {
-    const data = await authService.register(payload);
-    if (payload.logMeIn) {
-      dispatch(login(payload));
-    };
-    if (configFile.isFireBase) {
-      dispatch(createUserFirebase({ ...payload, _id: data.localId }));
-    } else {
-      dispatch(userCreated(data));
-    };
-  } catch (error) {
-    const { code, message } = error.response.data.error;
-    if (code === 400) {
-      if (message === "EMAIL_EXISTS") {
-        const errorObject = { email: "User with such email already exists" };
-        dispatch(userCreateFailed(errorObject));
-        throw errorObject;
-      };
-    };
-  };
-};
-
-function createUserFirebase(payload) {
-  return async function (dispatch) {
-    dispatch(userCreateRequested());
-    try {
-      const { content } = await userService.create(payload);
-      dispatch(userCreated(content));
-      history.push("/users");
-    } catch (error) {
-      dispatch(userCreateFailed(error.message));
-    }
-  };
-};
 export const deleteUser = (id) => async (dispatch) => {
   dispatch(userDeleteRequested());
   try {
@@ -198,7 +122,15 @@ export const deleteUser = (id) => async (dispatch) => {
       dispatch(userDeleted(id));
     }
   } catch (error) {
-    dispatch(userDeleteFailed(error.response));
+    const { code, message } = error.response.data.error;
+    if (code === 403) {
+      if (message === "NOT_AUTHORIZED_TO_DELETE") {
+        const errorObject = { name: "You cannot delete this user" };
+        dispatch(userDeleteFailed(errorObject));
+        console.log(errorObject);
+        throw errorObject;
+      };
+    };
   }
 };
 
@@ -226,16 +158,12 @@ export const updateUser = (payload) => async (dispatch) => {
   };
 };
 
-export const getCurrentUserData = () => (state) => {
-  return state.users.entities
-    ? state.users.entities.find(u => u._id === state.users.auth.userId)
-    : null;
-};
 export const getUsers = () => (state) => state.users.entities;
 
 export const getUsersError = () => (state) => state.users.error;
 export const getUserById = (id) => (state) => state.users.entities.find(u => u._id === id);
-export const getIsLoggedIn = () => (state) => state.users.isLoggedIn;
+
+export const getDataStatus = () => (state) => state.users.dataLoaded;
 export const getUsersLoadingStatus = () => (state) => state.users.isLoading;
 
 export default usersReducer;

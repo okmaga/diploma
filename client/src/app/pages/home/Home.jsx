@@ -1,10 +1,11 @@
 import React from "react";
 import "./home.scss";
-import { useAuth } from "../../hooks/useAuth";
 import LoginForm from "../../components/ui/loginForm/LoginForm";
+import { useSelector } from "react-redux";
+import { getCurrentUser } from "../../store/authSlice";
 
 const Home = () => {
-  const { currentUser } = useAuth();
+  const currentUser = useSelector(getCurrentUser());
 
   return (<>
     {currentUser?._id

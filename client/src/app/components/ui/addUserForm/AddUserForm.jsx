@@ -9,18 +9,21 @@ import CheckboxField from "../../common/form/CheckboxField";
 import { useToaster } from "../../../hooks/useToaster";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsersError, signUp, updateUser } from "../../../store/usersSlice";
+import { getUsersError, updateUser } from "../../../store/usersSlice";
+import { getIsLoggedIn, signUp } from "../../../store/authSlice";
 
 const AddUserForm = ({ mode = "new", userData }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const isLoggedIn = useSelector(getIsLoggedIn());
   const dispatch = useDispatch();
   const storeError = useSelector(getUsersError());
   const { toast } = useToaster();
   const navigate = useNavigate();
   const [data, setData] = useState({
-    _id: userData?._id || null,
+    _id: userData?._id,
     email: userData?.email || "",
     name: userData?.name || "",
+    verified: false,
     password: "",
     role: userData?.role || "",
     logMeIn: false
@@ -33,7 +36,6 @@ const AddUserForm = ({ mode = "new", userData }) => {
   }, [storeError]);
 
   const [formErrors, setFormErrors] = useState({});
-  const [submitError, setSubmitError] = useState(null);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   const roleOptions = [
@@ -66,12 +68,6 @@ const AddUserForm = ({ mode = "new", userData }) => {
     setIsSubmitDisabled(!isValid);
   }, [data]);
 
-  useEffect(() => {
-    if (submitError) {
-      Object.keys(submitError).map(key => toast.error(submitError[key]));
-    };
-  }, [submitError]);
-
   const validate = () => {
     const formErrors = validator(data, validatorConfig);
     setFormErrors(formErrors);
@@ -84,20 +80,22 @@ const AddUserForm = ({ mode = "new", userData }) => {
     const isValid = validate();
     if (!isValid) return;
     if (mode === "new") {
-      try {
-        await dispatch(signUp(data));
-        if (data.logMeIn) {
-          navigate("/");
-        } else {
-          navigate("/users");
-          toast.success(`A new ${data.role} ${data.name} was added`);
-        };
-        setIsLoading(false);
-      } catch (error) {
-        setFormErrors(error);
-        setSubmitError(error);
-        setIsLoading(false);
-      };
+      dispatch(signUp(data))
+        .unwrap()
+        .then(() => {
+          if (!isLoggedIn) {
+            navigate("/");
+          } else {
+            navigate("/users");
+            toast.success(`A new ${data.role} ${data.name} was added`);
+          };
+        })
+        .catch((error) => {
+          toast.error(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     } else {
       try {
         await dispatch(updateUser(data));
@@ -105,7 +103,7 @@ const AddUserForm = ({ mode = "new", userData }) => {
         toast.success(`${data.role} ${data.name} was updated`);
       } catch (error) {
         setFormErrors(error);
-        setSubmitError(error);
+        Object.keys(error).map(key => toast.error(error[key]));
         setIsLoading(false);
       }
     };

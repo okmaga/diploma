@@ -5,10 +5,16 @@ import CheckboxField from "../../../components/common/form/CheckboxField";
 import { validator } from "../../../utils/validator";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../hooks/useAuth";
+// import { useAuth } from "../../../hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { login } from "../../../store/authSlice";
+import { useToaster } from "../../../hooks/useToaster";
+
 const LoginForm = () => {
-  const { logIn } = useAuth();
+  // const { logIn } = useAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { toast } = useToaster();
 
   const [data, setData] = useState({
     email: "",
@@ -37,13 +43,19 @@ const LoginForm = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
     try {
-      await logIn(data);
-      navigate("/");
+      dispatch(login(data))
+        .unwrap()
+        .then(() => {
+          return navigate("/");
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
     } catch (error) {
       setLoginError(error.message);
     };

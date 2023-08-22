@@ -5,10 +5,11 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Badge } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import NavProfile from "../ui/NavProfile/NavProfile";
-import { useAuth } from "../../hooks/useAuth";
+import { getCurrentUser } from "../../store/authSlice";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
-  const { currentUser } = useAuth();
+  const currentUser = useSelector(getCurrentUser());
 
   return (
     <div className="navbar">
@@ -16,7 +17,7 @@ const NavBar = () => {
         <NavLink to="/"><h1>money portal</h1></NavLink>
       </div>
       <div className="icons">
-        {currentUser && currentUser?._id
+        {currentUser?._id
           ? <> <span className="icon">
             <Badge badgeContent={ 3 } color="warning">
               <NotificationsIcon sx={{ fontSize: 30 }} />
