@@ -127,7 +127,6 @@ export const deleteUser = (id) => async (dispatch) => {
       if (message === "NOT_AUTHORIZED_TO_DELETE") {
         const errorObject = { name: "You cannot delete this user" };
         dispatch(userDeleteFailed(errorObject));
-        console.log(errorObject);
         throw errorObject;
       };
     };

@@ -13,7 +13,10 @@ router.get("/", auth, async (req, res) => {
     res.status(200).send(list);
   } catch (e) {
     res.status(500).json({
-      message: "Server error. Try again later"
+      error: {
+        message: "SERVER_ERROR",
+        code: 500
+      }
     })
   };
 });
@@ -35,7 +38,10 @@ router.get("/:id", auth,async (req, res) => {
     };
   } catch (e) {
     res.status(500).json({
-      message: "Server error. Try again later"
+      error: {
+        message: "SERVER_ERROR",
+        code: 500
+      }
     });
   };
 });
@@ -84,7 +90,10 @@ router.post("/:id", auth, async (req, res) => {
     };
   } catch (e) {
     res.status(500).json({
-      message: "Server error. Try again later"
+      error: {
+        message: "SERVER_ERROR",
+        code: 500
+      }
     });
   };
 });
@@ -135,7 +144,10 @@ router.patch("/:id", auth, async (req, res) => {
     };
   } catch (e) {
     res.status(500).json({
-      message: "Server error. Try again later"
+      error: {
+        message: "SERVER_ERROR",
+        code: 500
+      }
     });
   };
 });
@@ -158,7 +170,10 @@ router.delete("/:id", auth, async (req, res) => {
     };
   } catch (e) {
     res.status(500).json({
-      message: "Server error. Try again later"
+      error: {
+        message: "SERVER_ERROR",
+        code: 500
+      }
     });
   };
 });

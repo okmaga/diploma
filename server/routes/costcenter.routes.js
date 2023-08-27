@@ -7,12 +7,29 @@ const auth = require("../middleware/auth.middleware");
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    if (user.role === "admin") {
-      const list = await CostCenter.find();
+    const list = await CostCenter.find();
+
+    if (req.isAdmin) {
       res.status(200).send(list);
+    } else if (user.role === "manager") {
+      const filteredList = list.map(cc => {
+        const isManagerOfCc = cc.managers.some(manager => {
+          return manager._id.toString() === user._id.toString()
+        });
+
+        if (!isManagerOfCc) {
+          cc.limit = 0;
+        };
+        return cc;
+      });
+      res.status(200).send(filteredList);
     } else {
-      return res.status(403).json({message: "Forbidden"});
-    }
+      const filteredList = list.map(cc => {
+        cc.limit = 0;
+        return cc;
+      });
+      res.status(200).send(filteredList);
+    };
   } catch (e) {
     res.status(500).json({
       message: "Server error. Try again later"

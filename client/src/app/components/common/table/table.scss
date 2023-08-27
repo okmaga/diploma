@@ -1,22 +1,45 @@
 @import "../../../styles/variables.scss";
 
+.table {
+
+  .thead {
+    height: 2rem;
+    .thead-row {
+      .sortable {
+        &:hover {
+          cursor: pointer;
+          border-top: 1px solid $soft-color;
+        }
+      }
+    }
+  }
+}
+
 table, th, td {
-  color: $main-color;
   border-bottom: 1px solid $soft-color;
+  border-top: 1px solid $main-bg;
   border-collapse: collapse;
   padding: 0.5rem 1rem;
   text-align: left;
 }
 
 th, td {
-  word-wrap: break-word;
-  max-width: 400px;
-
-
+  max-width: 200px;
+  white-space: nowrap;
+  text-overflow: clip;
+  overflow: scroll;
 }
 
-.tbody-row {
-  &:hover {
-    background-color: $soft-hover-color;
+th {
+  height: 2rem;
+  p {
+    display: inline;
   }
 }
+
+th > span {
+  color: $soft-color;
+  vertical-align: middle;
+}
+
+

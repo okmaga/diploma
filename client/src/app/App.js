@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Users from "./pages/users/Users";
 import CostCenters from "./pages/costCenters/CostCenters";
 import Root from "./layouts/root/Root";
-import PurchaseOrders from "./pages/purchaseOrders/PurchaseOrders";
+import PurchaseOrdersList from "./pages/purchaseOrders/children/purchaseOrdersList/PurchaseOrdersList";
 import Login from "./layouts/login/Login";
 import "./styles/global.scss";
 import Home from "./pages/home/Home";
@@ -20,12 +20,40 @@ import ToastProvider from "./hooks/useToaster";
 import UserProfilePage from "./pages/userProfile/UserProfilePage";
 import EditUserPage from "./pages/editUser/EditUserPage";
 import UserPage from "./pages/userPage/UserPage";
-import AuthProvider from "./hooks/useAuth";
+import PurchaseOrders from "./pages/purchaseOrders/PurchaseOrders";
+import NewPurchaseOrderPage from "./pages/purchaseOrders/children/newPurchaseOrderPage/NewPurchaseOrderPage";
 
 const theme = createTheme({
   palette: {
     primary: {
       main: teal[700]
+    }
+  },
+  components: {
+    // MuiButton: {
+    //   styleOverrides: {
+    //     root: ({ ownerState }) => ({
+    //       ...(ownerState.variant === "contained" &&
+    //       ownerState.color === "primary" && {
+    //         backgroundColor: "#202020",
+    //         color: "#fff"
+    //       })
+    //     })
+    //   }
+    // },
+    MuiLoadingButton: {
+      styleOverrides: {
+        root: ({ ownerState, theme }) => ({
+          ...(ownerState.loading && {
+            "&.Mui-disabled": {
+              backgroundColor: teal[400]
+            }
+          })
+        }),
+        loadingIndicator: ({
+          color: "#fff"
+        })
+      }
     }
   }
 });
@@ -41,7 +69,21 @@ const router = createBrowserRouter([
       },
       {
         path: "purchase-orders",
-        element: <PurchaseOrders />
+        element: <PurchaseOrders />,
+        children: [
+          {
+            index: true,
+            element: <PurchaseOrdersList />
+          },
+          {
+            path: ":id",
+            element: <NewPurchaseOrderPage/>
+          },
+          {
+            path: "new",
+            element: <NewPurchaseOrderPage />
+          }
+        ]
       },
       {
         path: "payments",
@@ -97,14 +139,12 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <AuthProvider>
-        <ThemeProvider theme={theme}>
-          <ToastProvider>
-            <RouterProvider router={router}/>
-            <Toaster />
-          </ToastProvider>
-        </ThemeProvider>
-      </AuthProvider>
+      <ThemeProvider theme={theme}>
+        <ToastProvider>
+          <RouterProvider router={router}/>
+          <Toaster />
+        </ToastProvider>
+      </ThemeProvider>
     </>
   );
 }

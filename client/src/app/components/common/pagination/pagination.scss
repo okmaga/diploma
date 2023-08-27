@@ -1,0 +1,31 @@
+@import "../../../styles/variables";
+.pagination {
+  ul {
+    list-style: none;
+
+    li {
+      float: left;
+      width: 1.5rem;
+      height: 1.5rem;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1rem 0.2rem;
+      border-radius: 50%;
+      padding: 1rem;
+
+      &:hover {
+        background-color: $soft-hover-color;
+        cursor: pointer;
+      }
+    }
+    li.current {
+      background-color: $light-bg;
+      color:white;
+    }
+  }
+
+  .pagination-list {
+
+  }
+}

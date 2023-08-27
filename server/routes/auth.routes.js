@@ -55,7 +55,10 @@ router.post("/signUp", [
       }
     } catch (e) {
       res.status(500).json({
-        message: "Server error. Try again later"
+        error: {
+          message: "SERVER_ERROR",
+          code: 500
+        }
       });
     }
   }]);
@@ -107,7 +110,10 @@ router.post("/signInWithPassword", [
       return res.status(200).send({ ...tokens, userId: existingUser._id });
     } catch (e) {
       res.status(500).json({
-        message: "Server error. Try again later"
+        error: {
+          message: "SERVER_ERROR",
+          code: 500
+        }
       });
     }
   }]);
@@ -125,7 +131,12 @@ router.post("/token", async (req, res) => {
     const dbToken = await tokenService.findToken(refreshToken);
 
     if (isTokenInvalid(data, dbToken)) {
-      return res.status(401).json({ message: "Unathorized" });
+      return res.status(401).json({
+        error: {
+          message: "UNATHORIZED",
+          code: 401
+        }
+      });
     }
 
     const tokens = tokenService.generate({
@@ -138,7 +149,10 @@ router.post("/token", async (req, res) => {
 
   } catch (e) {
     res.status(500).json({
-      message: "Server error. Try again later"
+      error: {
+        message: "SERVER_ERROR",
+        code: 500
+      }
     });
   }
 });

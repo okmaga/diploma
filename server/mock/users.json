@@ -1,30 +1,33 @@
 [
   {
-    "name": "Moscow",
+    "name": "James D",
     "email": "manager1@asd.com",
     "role": "manager",
     "id": 0,
     "verified": true,
-    "password" : "ASDASD123"
+    "password" : "ASDASD123",
+    "costCenter": "Aquatics"
   },
   {
-    "name": "Bob KKK",
+    "name": "Kevin K",
     "email": "manager2@asd.com",
     "role": "manager",
     "id": 1,
     "verified": true,
-    "password" : "ASDASD123"
+    "password" : "ASDASD123",
+    "costCenter": "HR"
   },
   {
-    "name": "Arbuz",
+    "name": "Alexey S",
     "email": "manager4@asd.com",
     "role": "manager",
     "id": 2,
     "verified": true,
-    "password" : "ASDASD123"
+    "password" : "ASDASD123",
+    "costCenter": "Building Maintenance"
   },
   {
-    "name": "Champion",
+    "name": "Champion User",
     "email": "user@asd.com",
     "role": "user",
     "id": 3,
@@ -32,18 +35,35 @@
     "password" : "ASDASD123"
   },
   {
-    "name": "Sponge Bob",
-    "email": "manager3@asd.com",
-    "role": "manager",
+    "name": "Mister User",
+    "email": "user2@asd.com",
+    "role": "user",
     "id": 4,
     "verified": false,
     "password" : "ASDASD123"
   },
   {
-    "name": "Tryharder Joe",
+    "name": "Alex User",
+    "email": "user3@asd.com",
+    "role": "user",
+    "id": 5,
+    "verified": false,
+    "password" : "ASDASD123"
+  },
+  {
+    "name": "Sponge Bob",
+    "email": "manager3@asd.com",
+    "role": "manager",
+    "id": 6,
+    "verified": false,
+    "password" : "ASDASD123",
+    "costCenter": "OOL"
+  },
+  {
+    "name": "Random Joe",
     "email": "admin@asd.com",
     "role": "admin",
-    "id": 4,
+    "id": 7,
     "verified": true,
     "password" : "ASDASD123"
   }

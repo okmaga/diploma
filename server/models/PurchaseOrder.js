@@ -1,13 +1,17 @@
 const { Schema, model } = require("mongoose");
 
 const schema = new Schema({
-  timestamp: { type: String, required: true},
-  requestor: { type: String, required: true},
+  timestamp: { type: Date },
+  requestor: {
+    email: { type: String },
+    _id: { type: Schema.Types.ObjectId, ref: "User", required: true }
+  },
+  title: { type: String },
   description: { type: String, required: true},
   amount: { type: Number, required: true},
-  costcenter: { type: String, required: true},
+  costCenter: { type: Schema.Types.ObjectId, ref: "CostCenter", required: true},
   budget: { type: String, required: true},
-  status: { type: String, enum: ["Approved", "Rejected", "Pending", "Info requested"]}
+  status: { type: String, enum: ["Approved", "Declined", "Pending", "Info requested"]}
 }, {
   timestamps: true
 });

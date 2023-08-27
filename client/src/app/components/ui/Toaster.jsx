@@ -7,22 +7,22 @@ import { useToaster } from "../../hooks/useToaster";
 import { Alert } from "@mui/material";
 
 const Toaster = () => {
-  const { open, message, severity } = useToaster();
+  const { open, setOpen, message, severity, onAction } = useToaster();
 
   const action = (
     <>
       <Button
         color="secondary"
         size="small"
-        onClick={() => console.log("click")}
+        onClick={onAction?.func}
       >
-        Undo
+        {onAction?.title}
       </Button>
       <IconButton
         size="small"
         aria-label="close"
         color="inherit"
-        onClick={() => console.log("click")}
+        onClick={() => setOpen(false)}
       >
         <CloseIcon fontSize="small" />
       </IconButton>
@@ -36,8 +36,8 @@ const Toaster = () => {
       autoHideDuration={6000}
     >
       <Alert
-        onClose={() => console.log("close")}
-        action={action}
+        onClose={() => setOpen(false)}
+        action={onAction ? action : null}
         severity={severity}
         sx={{ width: "100%" }}>
         {message}

@@ -5,6 +5,7 @@ import { getUsers, getUsersError } from "../../../store/usersSlice";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useToaster } from "../../../hooks/useToaster";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 const UsersListPage = () => {
   const { toast } = useToaster();
@@ -24,7 +25,8 @@ const UsersListPage = () => {
         sx={{ marginBottom: "2rem" }}
         variant="contained"
         onClick={() => navigate("add")}
-      >Add User</Button>
+        startIcon={<PersonAddIcon />}
+      >ADD USER</Button>
       <div>
         {users.length ? <UsersTable users={users}/> : "No users"}
       </div>

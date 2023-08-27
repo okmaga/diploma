@@ -19,6 +19,7 @@ const UsersTable = ({ users }) => {
   const handleDeleteConfirm = async (e, user) => {
     try {
       await dispatch(deleteUser(user._id));
+      toast.info(`${user.role} ${user.name} deleted`);
     } catch (error) {
       Object.keys(error).map(key => toast.error(error[key]));
     };

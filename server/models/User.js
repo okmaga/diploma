@@ -9,6 +9,7 @@ const schema = new Schema({
   },
   password: { type: String },
   role: { type: String, enum: ["user", "manager", "admin"] },
+  costCenter: { type: Schema.Types.ObjectId, ref: "CostCenter" },
   verified: { type: Boolean },
 }, {
   timestamps: true

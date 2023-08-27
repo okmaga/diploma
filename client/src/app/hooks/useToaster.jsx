@@ -10,39 +10,42 @@ export const useToaster = () => {
 const ToastProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [onAction, setOnAction] = useState(null);
   const [severity, setSeverity] = useState("info");
 
-  const launch = (text, duration = 6000) => {
+  const launch = (text, onAction, duration = 6000) => {
     setMessage(text);
+    setOnAction(onAction);
     setOpen(true);
     setTimeout(() => {
       setOpen(false);
       setMessage("");
       setSeverity("info");
+      setOnAction(null);
     }, duration);
   };
 
   const toast = {
-    info: (text) => {
+    info: (text, onAction) => {
       setSeverity("info");
-      launch(text);
+      launch(text, onAction);
     },
-    success: (text) => {
+    success: (text, onAction) => {
       setSeverity("success");
-      launch(text);
+      launch(text, onAction);
     },
-    warning: (text) => {
+    warning: (text, onAction) => {
       setSeverity("warning");
-      launch(text);
+      launch(text, onAction);
     },
-    error: (text) => {
+    error: (text, onAction) => {
       setSeverity("error");
-      launch(text);
+      launch(text, onAction);
     }
   };
 
   return (
-    <ToastContext.Provider value={{ open, severity, message, toast }}>
+    <ToastContext.Provider value={{ open, setOpen, severity, message, toast, onAction }}>
       {children}
     </ToastContext.Provider>
   );

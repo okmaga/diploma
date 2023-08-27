@@ -20,10 +20,10 @@ const Root = () => {
     <div className="root">
       <NavBar />
       <div className="container">
-        <div className="menuContainer">
+        <div className="menuContainer" >
           <Menu />
         </div>
-        <div className="contentContainer">
+        <div className="contentContainer" >
           <Outlet />
         </div>
       </div>

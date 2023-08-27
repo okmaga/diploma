@@ -6,15 +6,18 @@ import {
   loadPurchaseOrdersList
 } from "../../store/purchaseOrdersSlice";
 import { CircularProgress } from "@mui/material";
+import { getCostCenterLoadingStatus, loadCostCenterList } from "../../store/costCenterSlice";
 
 const PurchaseOrdersLoader = ({ children }) => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(getPurchaseOrdersLoadingStatus());
+  const purchaseOrdersLoading = useSelector(getPurchaseOrdersLoadingStatus());
+  const costCentersLoading = useSelector(getCostCenterLoadingStatus());
   useEffect(() => {
     dispatch(loadPurchaseOrdersList());
+    dispatch(loadCostCenterList());
   }, []);
 
-  if (isLoading) return <CircularProgress />;
+  if (purchaseOrdersLoading || costCentersLoading) return <CircularProgress />;
   return children;
 };
 

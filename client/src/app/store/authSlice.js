@@ -25,6 +25,9 @@ export const login = createAsyncThunk(
           return rejectWithValue("Too many log in attempts. Try again later.");
         };
       };
+      if (code === 500) {
+        return rejectWithValue("Server error. Try again later.");
+      };
     };
   }
 );
@@ -39,7 +42,7 @@ export const signUp = createAsyncThunk(
         const content = await userService.getCurrentUser();
         return { content, logMeIn: true };
       };
-      return { content: payload, logMeIn: false };
+      return { content: data, logMeIn: false };
     } catch (error) {
       const { code, message } = error.response.data.error;
       if (code === 400) {
