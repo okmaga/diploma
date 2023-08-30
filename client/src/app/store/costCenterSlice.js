@@ -45,6 +45,8 @@ export const loadCostCenterList = () => async (dispatch) => {
 };
 
 export const getCostCenterList = () => (state) => state.costCenter.entities;
+export const getCostCenterById = (id) => (state) => state.costCenter.entities.find(cc => cc._id === id);
+export const getCostCenterByTitle = (title) => (state) => state.costCenter.entities.find(cc => cc.title === title);
 
 export const getCostCenterError = () => (state) => state.costCenter.error;
 export const getCostCenterLoadingStatus = () => (state) => state.costCenter.isLoading;

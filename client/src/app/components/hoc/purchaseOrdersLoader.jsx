@@ -7,8 +7,15 @@ import {
 } from "../../store/purchaseOrdersSlice";
 import { CircularProgress } from "@mui/material";
 import { getCostCenterLoadingStatus, loadCostCenterList } from "../../store/costCenterSlice";
+import { getIsLoggedIn } from "../../store/authSlice";
+import { Navigate, useLocation } from "react-router-dom";
 
 const PurchaseOrdersLoader = ({ children }) => {
+  const location = useLocation();
+
+  const isLoggedIn = useSelector(getIsLoggedIn());
+  if (!isLoggedIn) return <Navigate to="/login" state={{ from: location }} replace/>;
+
   const dispatch = useDispatch();
   const purchaseOrdersLoading = useSelector(getPurchaseOrdersLoadingStatus());
   const costCentersLoading = useSelector(getCostCenterLoadingStatus());
@@ -18,6 +25,7 @@ const PurchaseOrdersLoader = ({ children }) => {
   }, []);
 
   if (purchaseOrdersLoading || costCentersLoading) return <CircularProgress />;
+
   return children;
 };
 

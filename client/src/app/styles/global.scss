@@ -13,8 +13,6 @@ a {
 
 .root {
   font-family: Inter, sans-serif;
-  background-color: $main-bg;
-  color: $main-color;
 }
 
 .container {
@@ -24,7 +22,6 @@ a {
 .menuContainer {
   width: 300px;
   padding: 5px 20px;
-  border-right: 1px solid $soft-color;
 }
 
 .contentContainer {

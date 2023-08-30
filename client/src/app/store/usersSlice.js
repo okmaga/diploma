@@ -47,9 +47,11 @@ const usersSlice = createSlice({
       const updatedUserIndex = state.entities.findIndex(u => u._id === action.payload._id);
       state.entities[updatedUserIndex] = action.payload;
       state.isLoading = false;
+      state.error = null;
     },
     userCreateRequested: (state) => {
       state.isLoading = true;
+      state.error = null;
     },
     userCreated: (state, action) => {
       if (!Array.isArray(state.entities)) {

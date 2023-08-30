@@ -13,6 +13,13 @@
       }
     }
   }
+  .tbody-row {
+    &:hover {
+      background-color: $soft-hover-color;
+      color: $main-color;
+    }
+  }
+
 }
 
 table, th, td {
@@ -41,5 +48,4 @@ th > span {
   color: $soft-color;
   vertical-align: middle;
 }
-
 

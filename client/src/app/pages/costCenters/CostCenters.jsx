@@ -9,8 +9,11 @@ import {
   loadPurchaseOrdersList
 } from "../../store/purchaseOrdersSlice";
 import { CircularProgress } from "@mui/material";
+import { getCurrentUser } from "../../store/authSlice";
+import { Navigate } from "react-router-dom";
 
 const CostCenters = () => {
+  const currentUser = useSelector(getCurrentUser());
   const costCenters = useSelector(getCostCenterList());
   const pos = useSelector(getPurchaseOrdersList());
   const ccLoading = useSelector(getCostCenterLoadingStatus());
@@ -32,6 +35,7 @@ const CostCenters = () => {
     });
   }, [pos, costCenters]);
 
+  if (currentUser?.role === "user") return <Navigate to="/"/>;
   if (poLoading || ccLoading) return <CircularProgress />;
 
   return (

@@ -5,9 +5,10 @@ import { getUsersLoadingStatus, loadUsersList } from "../../store/usersSlice";
 import { CircularProgress } from "@mui/material";
 import { getIsLoggedIn } from "../../store/authSlice";
 import { useToaster } from "../../hooks/useToaster";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 const UsersLoader = ({ children }) => {
+  const location = useLocation();
   const { toast } = useToaster();
   const isLoggedIn = useSelector(getIsLoggedIn());
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const UsersLoader = ({ children }) => {
       toast.info("Please log in or contact administrator");
     }
   }, [isLoggedIn]);
-  if (!isLoggedIn) return <Navigate to="/login"/>;
+  if (!isLoggedIn) return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   if (isLoading) return <CircularProgress />;
   return children;
 };

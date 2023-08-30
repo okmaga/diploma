@@ -1,9 +1,12 @@
 import React from "react";
+import "./newPurchaseOrderPage.scss";
+import PoForm from "../../../../components/ui/poForm/PoForm";
 
 const NewPurchaseOrderPage = () => {
   return (
     <div>
-      Purchase Order Page
+      <h1 style={{ marginBottom: "2rem" }}>Create purchase order</h1>
+      <PoForm />
     </div>
   );
 };

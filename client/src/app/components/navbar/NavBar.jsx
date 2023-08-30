@@ -1,12 +1,10 @@
 import React from "react";
 import "./navbar.scss";
-import SettingsIcon from "@mui/icons-material/Settings";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import { Badge } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import NavProfile from "../ui/NavProfile/NavProfile";
 import { getCurrentUser } from "../../store/authSlice";
 import { useSelector } from "react-redux";
+import SettingsMenu from "../ui/settingsMenu/SettingsMenu";
 
 const NavBar = () => {
   const currentUser = useSelector(getCurrentUser());
@@ -18,14 +16,13 @@ const NavBar = () => {
       </div>
       <div className="icons">
         {currentUser?._id
-          ? <> <span className="icon">
-            <Badge badgeContent={ 3 } color="warning">
-              <NotificationsIcon sx={{ fontSize: 30 }} />
-            </Badge></span>
-          <span className="icon"><SettingsIcon sx={{ fontSize: 30 }} /></span>
-          <span className="icon">
-            <NavProfile />
-          </span>
+          ? <>
+            <span className="icon">
+              <SettingsMenu />
+            </span>
+            <span className="icon">
+              <NavProfile />
+            </span>
           </>
           : (<span>
             <NavLink to="/login">

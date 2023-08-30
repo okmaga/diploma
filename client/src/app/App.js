@@ -17,46 +17,16 @@ import AddUserPage from "./pages/users/children/AddUserPage";
 import UsersListPage from "./pages/users/children/UsersListPage";
 import Toaster from "./components/ui/Toaster";
 import ToastProvider from "./hooks/useToaster";
-import UserProfilePage from "./pages/userProfile/UserProfilePage";
-import EditUserPage from "./pages/editUser/EditUserPage";
-import UserPage from "./pages/userPage/UserPage";
+import UserProfilePage from "./pages/users/children/userPage/children/userProfile/UserProfilePage";
+import EditUserPage from "./pages/users/children/userPage/children/editUser/EditUserPage";
+import UserPage from "./pages/users/children/userPage/UserPage";
 import PurchaseOrders from "./pages/purchaseOrders/PurchaseOrders";
 import NewPurchaseOrderPage from "./pages/purchaseOrders/children/newPurchaseOrderPage/NewPurchaseOrderPage";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: teal[700]
-    }
-  },
-  components: {
-    // MuiButton: {
-    //   styleOverrides: {
-    //     root: ({ ownerState }) => ({
-    //       ...(ownerState.variant === "contained" &&
-    //       ownerState.color === "primary" && {
-    //         backgroundColor: "#202020",
-    //         color: "#fff"
-    //       })
-    //     })
-    //   }
-    // },
-    MuiLoadingButton: {
-      styleOverrides: {
-        root: ({ ownerState, theme }) => ({
-          ...(ownerState.loading && {
-            "&.Mui-disabled": {
-              backgroundColor: teal[400]
-            }
-          })
-        }),
-        loadingIndicator: ({
-          color: "#fff"
-        })
-      }
-    }
-  }
-});
+import CssBaseline from "@mui/material/CssBaseline";
+import ViewSinglePoPage from "./pages/purchaseOrders/children/singlePoPage/children/viewSinglePoPage/ViewSinglePoPage";
+import SinglePoPage from "./pages/purchaseOrders/children/singlePoPage/SinglePoPage";
+import EditPoPage from "./pages/purchaseOrders/children/singlePoPage/children/editPoPage/EditPoPage";
+import { useThemeContext } from "./hooks/useThemeContext";
 
 const router = createBrowserRouter([
   {
@@ -77,7 +47,17 @@ const router = createBrowserRouter([
           },
           {
             path: ":id",
-            element: <NewPurchaseOrderPage/>
+            element: <SinglePoPage />,
+            children: [
+              {
+                index: true,
+                element: <ViewSinglePoPage />
+              },
+              {
+                path: "edit",
+                element: <EditPoPage />
+              }
+            ]
           },
           {
             path: "new",
@@ -137,9 +117,48 @@ const router = createBrowserRouter([
   }
 ]);
 function App() {
+  const { mode } = useThemeContext();
+
+  const theme = createTheme({
+    palette: {
+      mode,
+      primary: {
+        main: teal[700]
+      }
+    },
+    components: {
+      // MuiButton: {
+      //   styleOverrides: {
+      //     root: ({ ownerState }) => ({
+      //       ...(ownerState.variant === "contained" &&
+      //       ownerState.color === "primary" && {
+      //         backgroundColor: "#202020",
+      //         color: "#fff"
+      //       })
+      //     })
+      //   }
+      // },
+      MuiLoadingButton: {
+        styleOverrides: {
+          root: ({ ownerState, theme }) => ({
+            ...(ownerState.loading && {
+              "&.Mui-disabled": {
+                backgroundColor: teal[400]
+              }
+            })
+          }),
+          loadingIndicator: ({
+            color: "#fff"
+          })
+        }
+      }
+    }
+  });
+
   return (
     <>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <ToastProvider>
           <RouterProvider router={router}/>
           <Toaster />

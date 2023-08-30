@@ -10,21 +10,21 @@ const costCentersMock = require("../mock/costCenters.json");
 
 module.exports = async () => {
   const users = await User.find();
-  if (users.length !== usersMock.length) {
-    await createInitialEntity(User, usersMock);
-  }
+  // if (users.length !== usersMock.length) {
+  //   await createInitialEntity(User, usersMock);
+  // }
 
   const purchaseOrders = await PurchaseOrder.find();
-  if (purchaseOrders.length !== purchaseOrdersMock.length) {
-    console.log(purchaseOrders.length);
-    console.log(purchaseOrdersMock.length);
-    await createInitialEntity(PurchaseOrder, purchaseOrdersMock);
-  }
+  // if (purchaseOrders.length !== purchaseOrdersMock.length) {
+  //   console.log(purchaseOrders.length);
+  //   console.log(purchaseOrdersMock.length);
+  //   await createInitialEntity(PurchaseOrder, purchaseOrdersMock);
+  // }
 
   const costCenters = await CostCenter.find();
-  if (costCenters.length !== costCentersMock.length) {
-    await createInitialEntity(CostCenter, costCentersMock);
-  }
+  // if (costCenters.length !== costCentersMock.length) {
+  //   await createInitialEntity(CostCenter, costCentersMock);
+  // }
 };
 
 async function createInitialEntity(Model, data) {

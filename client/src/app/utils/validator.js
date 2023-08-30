@@ -6,6 +6,8 @@ export function validator(data, config) {
     case "isRequired": {
       if (typeof data === "boolean") {
         statusValidate = !data;
+      } else if (typeof data === "number") {
+        statusValidate = isNaN(data);
       } else {
         statusValidate = data.trim() === "";
       }
@@ -14,6 +16,11 @@ export function validator(data, config) {
     case "lettersOnly": {
       const lettersOnlyRegExp = /\p{L}+$/gu;
       statusValidate = !lettersOnlyRegExp.test(data);
+      break;
+    }
+    case "numbersOnly": {
+      const numbersOnlyRegExp = /^\d+$/g;
+      statusValidate = !numbersOnlyRegExp.test(data);
       break;
     }
     case "isYear": {
@@ -43,6 +50,10 @@ export function validator(data, config) {
     }
     case "min": {
       statusValidate = data.length < config.value;
+      break;
+    }
+    case "max": {
+      statusValidate = data.length > config.value;
       break;
     }
     default:

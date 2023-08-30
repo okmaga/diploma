@@ -22,7 +22,8 @@
       border-radius: 0.4rem;
 
       &:hover {
-        background-color: $soft-bg;
+        background-color: $soft-hover-color;
+        color: $main-color;
       }
 
     }

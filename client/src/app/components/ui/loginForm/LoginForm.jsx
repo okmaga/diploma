@@ -4,17 +4,17 @@ import TextField from "../../../components/common/form/TextField";
 import CheckboxField from "../../../components/common/form/CheckboxField";
 import { validator } from "../../../utils/validator";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-// import { useAuth } from "../../../hooks/useAuth";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../../store/authSlice";
 import { useToaster } from "../../../hooks/useToaster";
 
 const LoginForm = () => {
-  // const { logIn } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToaster();
+  const location = useLocation();
+  const from = location.state?.from || "/";
 
   const [data, setData] = useState({
     email: "",
@@ -51,7 +51,7 @@ const LoginForm = () => {
       dispatch(login(data))
         .unwrap()
         .then(() => {
-          return navigate("/");
+          return navigate(from, { replace: true });
         })
         .catch((error) => {
           toast.error(error);

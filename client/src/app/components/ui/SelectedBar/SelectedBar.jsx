@@ -15,7 +15,7 @@ import { getCurrentUser } from "../../../store/authSlice";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Tooltip from "@mui/material/Tooltip";
 
-const SelectedBar = ({ selectedRows, setSelectedRows, actionDisabled }) => {
+const SelectedBar = ({ selectedRows, setSelectedRows, actionDisabled, purchaseOrdersCcTitlesMemo }) => {
   const currentUser = useSelector(getCurrentUser());
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToaster();
@@ -104,7 +104,14 @@ const SelectedBar = ({ selectedRows, setSelectedRows, actionDisabled }) => {
       component: (purchaseOrder, i) => i + 1
     },
     title: { name: "Title", path: "title" },
-    costcenter: { name: "Cost Center", path: "costcenter" },
+    costcenter: {
+      name: "Cost Center",
+      path: "costCenter",
+      component: ({ _id }) => {
+        const matchingCostCenter = purchaseOrdersCcTitlesMemo.find(po => po._id === _id);
+        return matchingCostCenter.ccTitle;
+      }
+    },
     amount: {
       name: "Amount",
       path: "amount",
@@ -209,6 +216,7 @@ const SelectedBar = ({ selectedRows, setSelectedRows, actionDisabled }) => {
 
 SelectedBar.propTypes = {
   selectedRows: PropTypes.array,
+  purchaseOrdersCcTitlesMemo: PropTypes.array,
   setSelectedRows: PropTypes.func,
   actionDisabled: PropTypes.bool
 };

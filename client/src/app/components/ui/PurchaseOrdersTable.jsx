@@ -8,6 +8,7 @@ import SelectedBar from "./SelectedBar/SelectedBar";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { getCurrentUser } from "../../store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const PurchaseOrdersTable = ({ purchaseOrders, costCenters }) => {
   const currentUser = useSelector(getCurrentUser());
@@ -16,6 +17,7 @@ const PurchaseOrdersTable = ({ purchaseOrders, costCenters }) => {
   const [sortBy, setSortBy] = useState({ path: "timestamp", order: "desc" });
   const [actionDisabled, setActionDisabled] = useState(false);
   const pageSize = 20;
+  const navigate = useNavigate();
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -45,6 +47,7 @@ const PurchaseOrdersTable = ({ purchaseOrders, costCenters }) => {
   const purchaseOrdersCrop = paginate(sortedPurchaseOrders, currentPage, pageSize);
 
   const handleRowSelect = (e, payload) => {
+    e.stopPropagation();
     const { checked } = e.target;
     const { entirePage } = payload;
 
@@ -90,7 +93,10 @@ const PurchaseOrdersTable = ({ purchaseOrders, costCenters }) => {
       name: "Date",
       path: "timestamp",
       component: (purchaseOrder) => {
-        const date = new Date(purchaseOrder.timestamp);
+        const legacyDate = purchaseOrder?.timestamp ? new Date(purchaseOrder?.timestamp) : null;
+        const updatedDate = new Date(purchaseOrder?.updatedAt);
+        const createdDate = new Date(purchaseOrder?.createdAt);
+        const date = updatedDate > createdDate ? updatedDate : legacyDate ?? createdDate;
         const dayMonth = date.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
         return dayMonth;
       }
@@ -142,6 +148,10 @@ const PurchaseOrdersTable = ({ purchaseOrders, costCenters }) => {
     }
   };
 
+  const handleRowClick = (po) => {
+    navigate(`${po._id}`);
+  };
+
   return (
     <>
       <Table
@@ -151,6 +161,7 @@ const PurchaseOrdersTable = ({ purchaseOrders, costCenters }) => {
         selectedRows={selectedRows}
         selectedSort={sortBy}
         onSort={handleSort}
+        onRowClick={handleRowClick}
       />
       <Pagination
         pageSize={20}
@@ -162,6 +173,7 @@ const PurchaseOrdersTable = ({ purchaseOrders, costCenters }) => {
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
         actionDisabled={actionDisabled}
+        purchaseOrdersCcTitlesMemo={purchaseOrdersCcTitlesMemo}
       /> }
     </>
   );

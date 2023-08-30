@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getUserById } from "../../store/usersSlice";
+import { getUserById } from "../../../../../../store/usersSlice";
 import { useSelector } from "react-redux";
 import "./userProfilePage.scss";
 import Button from "@mui/material/Button";
-import { getCurrentUser } from "../../store/authSlice";
+import { getCurrentUser } from "../../../../../../store/authSlice";
 
 const UserProfilePage = () => {
   const navigate = useNavigate();

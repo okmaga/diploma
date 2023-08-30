@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { oneOfType } from "prop-types";
 import { TextField as TextFieldMui } from "@mui/material";
 
-const TextField = ({ label, name, type, value, placeholder, required, onChange, error }) => {
+const TextField = ({ label, name, type, value, placeholder, required, onChange, error, ...rest }) => {
   const [isTouched, setIsTouched] = useState(false);
   const handleChange = ({ target }) => {
     onChange({ name: target.name, value: target.value });
@@ -17,6 +17,7 @@ const TextField = ({ label, name, type, value, placeholder, required, onChange, 
   return (
     <>
       <TextFieldMui
+        {...rest}
         label={label}
         error={Boolean(isTouched && error)}
         helperText={isTouched && error}
@@ -41,7 +42,7 @@ TextField.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   type: PropTypes.string,
-  value: PropTypes.string,
+  value: oneOfType([PropTypes.string, PropTypes.number]),
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   onChange: PropTypes.func,
