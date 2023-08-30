@@ -10,6 +10,7 @@ import { getIsLoggedIn, loadCurrentUserData } from "../../store/authSlice";
 const Root = () => {
   const isLoggedIn = useSelector(getIsLoggedIn());
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(loadCurrentUserData());

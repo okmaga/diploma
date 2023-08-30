@@ -2,11 +2,14 @@ import React from "react";
 import "./home.scss";
 import LoginForm from "../../components/ui/loginForm/LoginForm";
 import { useSelector } from "react-redux";
-import { getCurrentUser } from "../../store/authSlice";
+import { getAuthDataLoading, getCurrentUser } from "../../store/authSlice";
+import { CircularProgress } from "@mui/material";
 
 const Home = () => {
+  const authDataLoading = useSelector(getAuthDataLoading());
   const currentUser = useSelector(getCurrentUser());
 
+  if (authDataLoading) return <CircularProgress />;
   return (<>
     {currentUser?._id
       ? <h1>Hello, {currentUser.name}</h1>

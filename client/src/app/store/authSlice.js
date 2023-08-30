@@ -159,6 +159,8 @@ export const loadCurrentUserData = () => async (dispatch) => {
 export const getIsLoggedIn = () => (state) => state.auth.isLoggedIn;
 export const getIsAdmin = () => (state) => state.auth.user.role === "admin";
 
+export const getAuthDataLoading = () => (state) => state.auth.authDataLoading;
+
 export const getCurrentUser = () => (state) => state.auth.user;
 
 export default authReducer;
