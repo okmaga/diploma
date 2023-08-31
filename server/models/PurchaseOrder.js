@@ -7,7 +7,7 @@ const schema = new Schema({
     _id: { type: Schema.Types.ObjectId, ref: "User", required: true }
   },
   title: { type: String },
-  description: { type: String, required: true},
+  description: { type: String },
   amount: { type: Number, required: true},
   costCenter: { type: Schema.Types.ObjectId, ref: "CostCenter", required: true},
   budget: { type: String, required: true},

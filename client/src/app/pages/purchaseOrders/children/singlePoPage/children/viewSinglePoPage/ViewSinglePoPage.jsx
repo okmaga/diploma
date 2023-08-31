@@ -110,6 +110,7 @@ const ViewSinglePoPage = () => {
           style={{ marginTop: "2rem", marginLeft: "0.5rem" }}
           variant="contained"
           onClick={() => navigate("edit")}
+          disabled={po.status === "Approved"}
         >Edit</Button>
       }
       {(renderApproveButton) &&

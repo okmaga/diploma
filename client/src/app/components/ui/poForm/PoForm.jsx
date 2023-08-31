@@ -107,7 +107,9 @@ const PoForm = ({ mode = "new", poData }) => {
     setData(prev => ({
       ...prev,
       [target.name]: target.name === "amount"
-        ? Number(target.value)
+        ? isNaN(Number(target.value))
+          ? 0
+          : Number(target.value)
         : target.value
     }));
   };
