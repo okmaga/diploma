@@ -127,6 +127,9 @@ function App() {
           primary: {
             main: teal[700]
           },
+          secondary: {
+            main: teal[700]
+          },
           divider: "#ccc",
           text: {
             primary: grey[900],
@@ -135,6 +138,9 @@ function App() {
         } : {
           primary: {
             main: "#00bfa5"
+          },
+          secondary: {
+            main: teal[700]
           },
           divider: "#ccc",
           background: {

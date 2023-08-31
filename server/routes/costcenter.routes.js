@@ -12,7 +12,6 @@ router.get("/", auth, async (req, res) => {
     if (req.isAdmin) {
       res.status(200).send(list);
     } else if (user.role === "manager") {
-      console.log("fetching filtered");
       const filteredList = list.map(cc => {
         const isManagerOfCc = cc.managers.some(manager => {
           return manager._id.toString() === user._id.toString()
@@ -23,7 +22,6 @@ router.get("/", auth, async (req, res) => {
         };
         return cc;
       });
-      console.log(filteredList);
       res.status(200).send(filteredList);
     } else {
       const filteredList = list.map(cc => {

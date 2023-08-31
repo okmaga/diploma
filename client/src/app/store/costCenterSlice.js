@@ -24,6 +24,7 @@ const costCenterSlice = createSlice({
     builder
       .addCase(logout.fulfilled, (state) => {
         state.error = null;
+        state.entities = [];
       });
   }
 });

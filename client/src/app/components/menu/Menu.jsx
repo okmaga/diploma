@@ -8,18 +8,24 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PaidIcon from "@mui/icons-material/Paid";
 import { useSelector } from "react-redux";
 import { getCurrentUser } from "../../store/authSlice";
+import Badge from "@mui/material/Badge";
+import { getPurchaseOrdersList } from "../../store/purchaseOrdersSlice";
 
 const Menu = () => {
   const currentUser = useSelector(getCurrentUser());
   const isAdmin = currentUser?.role === "admin";
   const isManager = currentUser?.role === "manager";
+  const purchaseOrders = useSelector(getPurchaseOrdersList());
+  const countPending = purchaseOrders.filter(po => po.status === "Pending").length;
 
   return (
     <div className="menu">
       <div className="item">
         <span className="title">MAIN</span>
         <NavLink className="listItem" to="/purchase-orders">
-          <ShoppingCartIcon />
+          <Badge badgeContent={countPending} color="warning">
+            <ShoppingCartIcon />
+          </Badge>
           <span className="listItemTitle">Purchase orders</span>
         </NavLink>
         <NavLink className="listItem" to="/payments">

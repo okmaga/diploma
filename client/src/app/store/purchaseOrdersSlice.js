@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import purchaseOrdersService from "../services/purchase.order.service";
-import { logout } from "./authSlice";
+import { login, logout } from "./authSlice";
 
 const initialState = {
   entities: [],
@@ -162,9 +162,12 @@ const purchaseOrdersSlice = createSlice({
 
       .addCase(logout.fulfilled, (state) => {
         state.error = null;
-      }
+        state.entities = [];
+      })
 
-      );
+      .addCase(login.fulfilled, (state) => {
+        loadPurchaseOrdersList();
+      });
   }
 });
 

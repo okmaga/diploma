@@ -8,7 +8,6 @@ import { CircularProgress } from "@mui/material";
 const Home = () => {
   const authDataLoading = useSelector(getAuthDataLoading());
   const currentUser = useSelector(getCurrentUser());
-
   if (authDataLoading) return <CircularProgress />;
   return (<>
     {currentUser?._id

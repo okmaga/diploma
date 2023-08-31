@@ -6,6 +6,8 @@ import Footer from "../../components/footer/Footer";
 import Menu from "../../components/menu/Menu";
 import { useDispatch, useSelector } from "react-redux";
 import { getIsLoggedIn, loadCurrentUserData } from "../../store/authSlice";
+import { loadPurchaseOrdersList } from "../../store/purchaseOrdersSlice";
+import { loadCostCenterList } from "../../store/costCenterSlice";
 
 const Root = () => {
   const isLoggedIn = useSelector(getIsLoggedIn());
@@ -14,6 +16,8 @@ const Root = () => {
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(loadCurrentUserData());
+      dispatch(loadPurchaseOrdersList());
+      dispatch(loadCostCenterList());
     };
   }, []);
 

@@ -8,6 +8,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../../store/authSlice";
 import { useToaster } from "../../../hooks/useToaster";
+import { loadCostCenterList } from "../../../store/costCenterSlice";
+import { loadPurchaseOrdersList } from "../../../store/purchaseOrdersSlice";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -51,6 +53,8 @@ const LoginForm = () => {
       dispatch(login(data))
         .unwrap()
         .then(() => {
+          dispatch(loadCostCenterList());
+          dispatch(loadPurchaseOrdersList());
           return navigate(from, { replace: true });
         })
         .catch((error) => {
