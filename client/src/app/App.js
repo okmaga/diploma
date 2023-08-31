@@ -11,7 +11,7 @@ import Payments from "./pages/payments/Payments";
 import Dashboard from "./pages/dashboard/Dashboard";
 import "react-toastify/dist/ReactToastify.css";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { teal } from "@mui/material/colors";
+import { grey, teal } from "@mui/material/colors";
 import Logout from "./layouts/logout/Logout";
 import AddUserPage from "./pages/users/children/AddUserPage";
 import UsersListPage from "./pages/users/children/UsersListPage";
@@ -122,22 +122,32 @@ function App() {
   const theme = createTheme({
     palette: {
       mode,
-      primary: {
-        main: teal[700]
-      }
+      ...(mode === "light"
+        ? {
+          primary: {
+            main: teal[700]
+          },
+          divider: "#ccc",
+          text: {
+            primary: grey[900],
+            secondary: grey[800]
+          }
+        } : {
+          primary: {
+            main: "#00bfa5"
+          },
+          divider: "#ccc",
+          background: {
+            default: "#2a3447",
+            paper: "#2a3447"
+          },
+          text: {
+            primary: "#fff",
+            secondary: grey[500]
+          }
+        })
     },
     components: {
-      // MuiButton: {
-      //   styleOverrides: {
-      //     root: ({ ownerState }) => ({
-      //       ...(ownerState.variant === "contained" &&
-      //       ownerState.color === "primary" && {
-      //         backgroundColor: "#202020",
-      //         color: "#fff"
-      //       })
-      //     })
-      //   }
-      // },
       MuiLoadingButton: {
         styleOverrides: {
           root: ({ ownerState, theme }) => ({

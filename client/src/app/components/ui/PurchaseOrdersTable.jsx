@@ -6,12 +6,9 @@ import Pagination from "../common/pagination/Pagination";
 import paginate from "../../utils/paginate";
 import SelectedBar from "./SelectedBar/SelectedBar";
 import _ from "lodash";
-import { useSelector } from "react-redux";
-import { getCurrentUser } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const PurchaseOrdersTable = ({ purchaseOrders, costCenters }) => {
-  const currentUser = useSelector(getCurrentUser());
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortBy, setSortBy] = useState({ path: "timestamp", order: "desc" });
@@ -25,7 +22,7 @@ const PurchaseOrdersTable = ({ purchaseOrders, costCenters }) => {
   useEffect(() => {
     const isActionValid = selectedRows.every((po, i, arr) => {
       if (po.status === "Cancelled") return false;
-      if (po.status === "Approved" && currentUser.role !== "admin") return false;
+      if (po.status === "Approved") return false;
       return po.status === arr[0].status;
     });
     setActionDisabled(!isActionValid);

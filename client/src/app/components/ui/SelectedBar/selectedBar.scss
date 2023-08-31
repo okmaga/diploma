@@ -1,4 +1,5 @@
 @import "../../../styles/variables";
+@import "../../../styles/responsive";
 .selected-bar {
   max-height: 25rem;
   display: flex;
@@ -7,8 +8,6 @@
   bottom:0;
   right: 0px;
   left: 0px;
-  background-color: $light-bg;
-  color: $light-color;
   width: 100%;
   border-radius: 10px;
   padding: 0.5rem 1rem;
@@ -18,6 +17,14 @@
 
     margin-left: 15rem;
     margin-right: 1rem;
+
+    @include lg {
+      margin-left: 2rem;
+    }
+
+    @include sm {
+      margin-left: 0.5rem;
+    }
 
     .count-title {
       opacity: 80%;
@@ -40,16 +47,29 @@
       font-weight: 800;
     }
   }
-  .approve-button {
-    background-color: $soft-bg;
+  .confirm-button {
     border-radius: 3px;
-    padding: 0.3rem;
+    padding: 0.3rem 1rem;
+    @include md {
+      margin-top: 1rem;
+      padding: 0.6rem 1.5rem;
+    }
   }
 
   .table-container {
-    color: $light-color;
     margin-left: 5rem;
     max-height: 90%;
     overflow: auto;
+
+    @include lg {
+      margin: 2rem 3rem;
+    }
   }
 };
+
+.expanded {
+  min-height: 20rem;
+  @include md {
+    flex-direction: column;
+  }
+}

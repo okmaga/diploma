@@ -48,7 +48,10 @@ const Table = ({ data, columns, onRowClick, itemsCount, selectedSort, onSort }) 
         <tr className="thead-row">
           {Object.keys(columns).map(column => (
             <th
-              className={"thead-item" + (columns[column].path && selectedSort ? " sortable" : "") }
+              className={"thead-item" +
+                (columns[column].path && selectedSort ? " sortable" : "") +
+                (column === "requestor" || column === "costCenter" ? " md-hide" : "")
+              }
               key={column}
               onClick={columns[column].path && selectedSort ? () => handleSort(columns[column].path) : undefined }
             >
@@ -70,7 +73,7 @@ const Table = ({ data, columns, onRowClick, itemsCount, selectedSort, onSort }) 
           key={item._id}
         >
           {Object.keys(columns).map(column => (<td
-            className="tbody-item"
+            className={"tbody-item" + (column === "requestor" || column === "costCenter" ? " md-hide" : "")}
             key={column}>
             {renderContent(item, i, column)}
           </td>))}

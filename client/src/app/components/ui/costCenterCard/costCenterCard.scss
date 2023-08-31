@@ -1,20 +1,23 @@
+@import "../../../styles/responsive";
+
 .cost-center-card {
+  margin-top: 1rem;
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 1rem;
   -webkit-box-shadow: 3px 4px 11px -3px rgba(0,0,0,0.32);
   &:hover {
-    background-color: #efefef;
-    color: #2a3447;
     cursor: pointer;
   }
   .cost-center-title {
     font-weight: 900;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
   .cost-center-spent {
     margin-bottom: 1rem;
   }
   .cost-center-progress {
-
+  }
+  @include md {
+    padding: 0.5rem;
   }
 }

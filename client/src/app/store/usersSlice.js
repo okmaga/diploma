@@ -164,7 +164,7 @@ export const getUsers = () => (state) => state.users.entities;
 export const getUsersError = () => (state) => state.users.error;
 export const getUserById = (id) => (state) => state.users.entities.find(u => u._id === id);
 
-export const getDataStatus = () => (state) => state.users.dataLoaded;
+export const getUserDataStatus = () => (state) => state.users.dataLoaded;
 export const getUsersLoadingStatus = () => (state) => state.users.isLoading;
 
 export default usersReducer;

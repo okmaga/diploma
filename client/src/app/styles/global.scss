@@ -1,9 +1,19 @@
 @import "./variables.scss";
+@import "./responsive.scss";
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+h1 {
+  margin-bottom: 3rem;
+
+  @include md {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
 }
 
 a {
@@ -20,8 +30,12 @@ a {
 }
 
 .menuContainer {
-  width: 300px;
+  min-width: 240px;
   padding: 5px 20px;
+
+  @include lg {
+    min-width: max-content;
+  }
 }
 
 .contentContainer {

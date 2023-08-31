@@ -14,8 +14,10 @@ import { LoadingButton } from "@mui/lab";
 import { getCurrentUser } from "../../../store/authSlice";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Tooltip from "@mui/material/Tooltip";
+import { useThemeContext } from "../../../hooks/useThemeContext";
 
 const SelectedBar = ({ selectedRows, setSelectedRows, actionDisabled, purchaseOrdersCcTitlesMemo }) => {
+  const { mode } = useThemeContext();
   const currentUser = useSelector(getCurrentUser());
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToaster();
@@ -77,24 +79,28 @@ const SelectedBar = ({ selectedRows, setSelectedRows, actionDisabled, purchaseOr
     };
   };
 
-  const style = isExpanded ? {
-    height: `${selectedRows.length * 15}rem`,
-    opacity: "97%"
+  const style = mode === "light" ? {
+    backgroundColor: "#2a3447",
+    height: isExpanded ? `${selectedRows.length * 15}rem` : "3rem",
+    opacity: isExpanded ? "97%" : "90%",
+    color: "#eee"
   } : {
-    height: "3rem",
-    opacity: "90%"
+    height: isExpanded ? `${selectedRows.length * 15}rem` : "3rem",
+    opacity: "100%",
+    backgroundColor: "#bbb",
+    color: "#2a3447"
   };
 
   const columns = {
     selector: {
       name: <Checkbox
-        style={{ color: "white" }}
+        style={{ color: mode === "light" ? "white" : "#2a3447" }}
         checked={true}
         onClick={() => setSelectedRows([])}
       />,
       component: (purchaseOrder) =>
         <Checkbox
-          style={{ color: "white" }}
+          style={{ color: mode === "light" ? "white" : "#2a3447" }}
           checked={true}
           onClick={(e) => handleConfirmDeselect(e, purchaseOrder._id)}
         />
@@ -122,7 +128,7 @@ const SelectedBar = ({ selectedRows, setSelectedRows, actionDisabled, purchaseOr
   return (
     <div
       ref={ref}
-      className={"selected-bar"}
+      className={"selected-bar" + (isExpanded ? " expanded" : "")}
       style={{ ...style }}
     >
       {!isExpanded && <>
@@ -196,6 +202,7 @@ const SelectedBar = ({ selectedRows, setSelectedRows, actionDisabled, purchaseOr
             size="large"
             variant="contained"
             onClick={handleBulkApprove}
+            className="confirm-button"
             startIcon={<AssignmentTurnedInIcon />}
           >Confirm</LoadingButton>}
           {currentUser.role === "user" &&
@@ -204,6 +211,7 @@ const SelectedBar = ({ selectedRows, setSelectedRows, actionDisabled, purchaseOr
                 size="large"
                 variant="contained"
                 color="error"
+                className="confirm-button"
                 onClick={handleBulkCancel}
                 startIcon={<CancelIcon />}
               >Cancel</LoadingButton>
